@@ -1,4 +1,5 @@
 require('dotenv').config();
+const http = require('http');
 const {
     Client, GatewayIntentBits, ChannelType, PermissionFlagsBits,
     ContainerBuilder, TextDisplayBuilder, ThumbnailBuilder,
@@ -1192,3 +1193,11 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.login(process.env.TOKEN);
+
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Velox Host is online!');
+});
+server.listen(process.env.PORT || 3000, () => {
+    console.log('🌐 HTTP server running on port ' + (process.env.PORT || 3000));
+});
