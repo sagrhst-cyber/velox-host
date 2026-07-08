@@ -1193,7 +1193,9 @@ client.on('interactionCreate', async interaction => {
 });
 
 console.log('🔑 Token exists:', !!process.env.TOKEN);
-client.login(process.env.TOKEN).catch(err => {
+client.login(process.env.TOKEN).then(() => {
+    console.log('✅ Login promise resolved');
+}).catch(err => {
     console.error('❌ Failed to login:', err.message);
 });
 
