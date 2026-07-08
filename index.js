@@ -415,7 +415,7 @@ function buildBotPanel() {
     container.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Velox Bots — Custom Bot**__')
+                new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Velox Order Panel**__')
             )
             .setThumbnailAccessory(
                 new ThumbnailBuilder().setURL(TICKET_LOGO)
@@ -425,25 +425,54 @@ function buildBotPanel() {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('### <a:bot:1524075508407468224> Custom Bot')
-    );
-
-    container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '• *We\'ll create a custom bot tailored to your needs.*\n' +
-            '• *Choose your duration and payment method.*\n' +
-            '• *Our team will contact you after purchase.*'
+            'Our team is available to assist with any order-related questions.\n' +
+            'While response times may be slightly delayed during busy periods,\n' +
+            'we\'ll respond as quickly as possible.'
         )
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('### <a:bot:1524075508407468224> – Custom Bot')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '<a:arrow:1523832007941947543> Build a custom bot that matches your business. Customize its responses, personality, and workflow to fit your brand.'
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('### <a:Security_Loading:1270761981896425483> – Security Bot')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '<a:arrow:1523832007941947543> Enhance your server\'s security with a bot that helps detect threats, enforce rules, and keep your community safe.'
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('**Note:** Please check our [Terms Of Service](https://discord.gg/Q6HfhfaudG) before starting!')
+    );
 
     container.addActionRowComponents(
         new ActionRowBuilder().addComponents(
             new ButtonBuilder()
                 .setCustomId('custom_bot')
                 .setLabel('Custom Bot')
-                .setEmoji({ name: 'emoji_1494833665606160494', id: '1518710764406308885' })
+                .setEmoji({ name: 'bot', id: '1524075508407468224' })
+                .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
+                .setCustomId('security_bot')
+                .setLabel('Security Bot')
+                .setEmoji({ name: 'Security_Loading', id: '1270761981896425483' })
                 .setStyle(ButtonStyle.Primary)
         )
     );
@@ -968,6 +997,12 @@ client.on('interactionCreate', async interaction => {
         if (interaction.customId === 'custom_bot') {
             await interaction.deferReply({ flags: 64 });
             await interaction.editReply(v2Message(buildBotTypePanel()));
+        }
+
+        if (interaction.customId === 'security_bot') {
+            await interaction.deferReply({ flags: 64 });
+            userSelections.set(interaction.user.id, { botType: 'Security Bot' });
+            await interaction.editReply(v2Message(buildDurationPanel('Security Bot')));
         }
 
         if (interaction.customId === 'tos_open') {
