@@ -435,7 +435,7 @@ function buildBotPanel() {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('### <a:bot:1524075508407468224> – Custom Bot')
+        new TextDisplayBuilder().setContent('## <a:bot:1524075508407468224> __**Custom Bot**__')
     );
 
     container.addTextDisplayComponents(
@@ -447,7 +447,7 @@ function buildBotPanel() {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('### <a:securityloading:1524415908242788523> – Security Bot')
+        new TextDisplayBuilder().setContent('## <a:securityloading:1524415908242788523> __**Security Bot**__')
     );
 
     container.addTextDisplayComponents(
