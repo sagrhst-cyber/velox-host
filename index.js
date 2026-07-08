@@ -426,9 +426,9 @@ function buildBotPanel() {
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            'Our team is available to assist with any order-related questions.\n' +
-            'While response times may be slightly delayed during busy periods,\n' +
-            'we\'ll respond as quickly as possible.'
+            '• Our team is available to assist with any order-related questions.\n' +
+            '• While response times may be slightly delayed during busy periods,\n' +
+            '• we\'ll respond as quickly as possible.'
         )
     );
 
