@@ -459,7 +459,7 @@ function buildBotPanel() {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('**Note:** Please check our [Terms Of Service](https://discord.gg/Q6HfhfaudG) before starting!')
+        new TextDisplayBuilder().setContent('**Note:** Please check our [Terms Of Service](https://discord.com/channels/1523717705130315877/1523723223131488412) before starting!')
     );
 
     container.addActionRowComponents(
