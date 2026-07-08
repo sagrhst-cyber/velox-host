@@ -983,7 +983,7 @@ client.on('interactionCreate', async interaction => {
             const guild = interaction.guild;
             const user = interaction.user;
 
-            await interaction.deferReply();
+            await interaction.deferReply({ flags: 64 });
 
             const ticketChannel = await createTicketChannel(guild, user, buildTicketContainer(subject, user), { type: 'Support', category: getSubjectLabel(subject) });
 
