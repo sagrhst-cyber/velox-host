@@ -1126,7 +1126,6 @@ client.on('interactionCreate', async interaction => {
         if (interaction.customId.startsWith('rate_')) {
             const rating = interaction.customId.split('_')[1];
             pendingRatings.set(interaction.user.id, { rating, channelId: interaction.channel.id });
-            await interaction.deferReply({ flags: 64 });
             const modal = new ModalBuilder()
                 .setCustomId('review_modal')
                 .setTitle('Write Your Review');
