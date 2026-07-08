@@ -1203,7 +1203,7 @@ client.on('interactionCreate', async interaction => {
                     new TextDisplayBuilder().setContent('> ' + reviewText)
                 );
                 logContainer.addTextDisplayComponents(
-                    new TextDisplayBuilder().setContent('**Βαθμολογία:** ' + stars)
+                    new TextDisplayBuilder().setContent('> **Βαθμολογία:** ' + stars)
                 );
                 logContainer.addSeparatorComponents(new SeparatorBuilder());
                 logContainer.addTextDisplayComponents(
