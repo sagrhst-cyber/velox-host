@@ -447,7 +447,7 @@ function buildBotPanel() {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('### <a:Security_Loading:1270761981896425483> – Security Bot')
+        new TextDisplayBuilder().setContent('### <a:securityloading:1524415908242788523> – Security Bot')
     );
 
     container.addTextDisplayComponents(
@@ -472,7 +472,7 @@ function buildBotPanel() {
             new ButtonBuilder()
                 .setCustomId('security_bot')
                 .setLabel('Security Bot')
-                .setEmoji({ name: 'Security_Loading', id: '1270761981896425483' })
+.setEmoji({ name: 'securityloading', id: '1524415908242788523' })
                 .setStyle(ButtonStyle.Primary)
         )
     );
