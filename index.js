@@ -32,6 +32,7 @@ const CATEGORIES = [
 
 const userSelections = new Map();
 const ticketInfo = new Map();
+const pendingRatings = new Map();
 
 function getSubjectLabel(subject) {
     const cat = CATEGORIES.find(c => c.value === subject);
@@ -1124,75 +1125,21 @@ client.on('interactionCreate', async interaction => {
 
         if (interaction.customId.startsWith('rate_')) {
             const rating = interaction.customId.split('_')[1];
-            const stars = '<a:starblue:1524029269490139166>'.repeat(parseInt(rating));
-            const guild = interaction.guild;
-            const ratingsChannel = guild.channels.cache.get(RATINGS_CHANNEL_ID);
-
-            await interaction.deferUpdate();
-
-            const thankContainer = new ContainerBuilder();
-            thankContainer.setAccentColor(0x00ff00);
-            thankContainer.addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('# ✅ Thank You!')
-            );
-            thankContainer.addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('You rated this ticket: ' + stars + ' (' + rating + '/5)\n\nThank you for your feedback!')
-            );
-
-            await interaction.editReply(v2Message(thankContainer));
-
-            if (ratingsChannel) {
-                const info = ticketInfo.get(interaction.channel.id);
-                let purchaseInfo = '';
-                if (info) {
-                    if (info.type === 'Custom Bot') {
-                        purchaseInfo = '> **Purchase:** ' + info.type + '\n' +
-                            '> **Duration:** ' + info.duration + '\n' +
-                            '> **Payment:** ' + info.payment + '\n';
-                        if (info.paysafeType) purchaseInfo += '> **Paysafe Type:** ' + info.paysafeType + '\n';
-                        if (info.crypto) purchaseInfo += '> **Crypto:** ' + info.crypto + '\n';
-                    } else {
-                        purchaseInfo = '> **Type:** ' + info.type + '\n' +
-                            '> **Category:** ' + info.category + '\n';
-                    }
-                }
-
-                const logContainer = new ContainerBuilder();
-                logContainer.setAccentColor(0x0099ff);
-                logContainer.addMediaGalleryComponents(
-                    new MediaGalleryBuilder().addItems(
-                        new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
-                    )
-                );
-                logContainer.addSeparatorComponents(new SeparatorBuilder());
-                logContainer.addTextDisplayComponents(
-                    new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Ticket Rating**__')
-                );
-                logContainer.addSectionComponents(
-                    new SectionBuilder()
-                        .addTextDisplayComponents(
-                            new TextDisplayBuilder().setContent('**Rating:** ' + stars + ' (' + rating + '/5)')
-                        )
-                        .setThumbnailAccessory(
-                            new ThumbnailBuilder().setURL(TICKET_LOGO)
-                        )
-                );
-                logContainer.addSeparatorComponents(new SeparatorBuilder());
-                logContainer.addTextDisplayComponents(
-                    new TextDisplayBuilder().setContent(
-                        '> **User:** <@' + interaction.user.id + '>\n' +
-                        '> **Ticket:** `' + interaction.channel.name + '`\n' +
-                        '> **Rating:** ' + rating + '/5\n' +
-                        purchaseInfo
-                    )
-                );
-                await ratingsChannel.send(v2Message(logContainer));
-                ticketInfo.delete(interaction.channel.id);
-            }
-
-            setTimeout(async () => {
-                await interaction.channel.delete().catch(() => {});
-            }, 3000);
+            pendingRatings.set(interaction.user.id, { rating, channelId: interaction.channel.id });
+            await interaction.deferReply({ flags: 64 });
+            const modal = new ModalBuilder()
+                .setCustomId('review_modal')
+                .setTitle('Write Your Review');
+            const reviewInput = new TextInputBuilder()
+                .setCustomId('review_text')
+                .setLabel('Your review')
+                .setStyle(TextInputStyle.Paragraph)
+                .setPlaceholder('Tell us about your experience...')
+                .setRequired(true)
+                .setMinLength(5)
+                .setMaxLength(500);
+            modal.addComponents(new ActionRowBuilder().addComponents(reviewInput));
+            await interaction.showModal(modal);
         }
 
         // ==================== CLAIM ====================
@@ -1224,6 +1171,54 @@ client.on('interactionCreate', async interaction => {
                 await interaction.reply({ content: '❌ Wrong answer! Click the button again to try.', flags: 64 });
             }
             captchas.delete(interaction.user.id);
+        }
+
+        if (interaction.customId === 'review_modal') {
+            const reviewText = interaction.fields.getTextInputValue('review_text');
+            const pending = pendingRatings.get(interaction.user.id);
+            if (!pending) return interaction.reply({ content: '❌ No pending rating found.', flags: 64 });
+
+            const { rating, channelId } = pending;
+            const stars = '⭐'.repeat(parseInt(rating));
+            const guild = interaction.guild;
+            const ratingsChannel = guild.channels.cache.get(RATINGS_CHANNEL_ID);
+            const channel = guild.channels.cache.get(channelId);
+            const date = new Date().toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' }) + ' ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+            await interaction.reply({ content: '✅ Thank you for your review!', flags: 64 });
+
+            if (ratingsChannel) {
+                const logContainer = new ContainerBuilder();
+                logContainer.setAccentColor(0x0099ff);
+                logContainer.addMediaGalleryComponents(
+                    new MediaGalleryBuilder().addItems(
+                        new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+                    )
+                );
+                logContainer.addSeparatorComponents(new SeparatorBuilder());
+                logContainer.addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Velox Bots**__')
+                );
+                logContainer.addSeparatorComponents(new SeparatorBuilder());
+                logContainer.addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent('> ' + reviewText)
+                );
+                logContainer.addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent('**Βαθμολογία:** ' + stars)
+                );
+                logContainer.addSeparatorComponents(new SeparatorBuilder());
+                logContainer.addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent('<@' + interaction.user.id + '> • ' + date)
+                );
+                await ratingsChannel.send(v2Message(logContainer));
+            }
+
+            pendingRatings.delete(interaction.user.id);
+            ticketInfo.delete(channelId);
+
+            setTimeout(async () => {
+                if (channel) await channel.delete().catch(() => {});
+            }, 3000);
         }
     }
 });
