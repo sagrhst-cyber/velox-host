@@ -1189,21 +1189,12 @@ client.on('interactionCreate', async interaction => {
             if (ratingsChannel) {
                 const logContainer = new ContainerBuilder();
                 logContainer.setAccentColor(0x0099ff);
-                logContainer.addSectionComponents(
-                    new SectionBuilder()
-                        .addTextDisplayComponents(
-                            new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Velox Bots**__')
-                        )
-                        .setThumbnailAccessory(
-                            new ThumbnailBuilder().setURL(TICKET_LOGO)
-                        )
+                logContainer.addTextDisplayComponents(
+                    new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Velox Bots**__')
                 );
                 logContainer.addSeparatorComponents(new SeparatorBuilder());
                 logContainer.addTextDisplayComponents(
-                    new TextDisplayBuilder().setContent('> ' + reviewText)
-                );
-                logContainer.addTextDisplayComponents(
-                    new TextDisplayBuilder().setContent('> **Βαθμολογία:** ' + stars)
+                    new TextDisplayBuilder().setContent('> ' + reviewText + '\n> **Βαθμολογία:** ' + stars)
                 );
                 logContainer.addSeparatorComponents(new SeparatorBuilder());
                 logContainer.addTextDisplayComponents(
