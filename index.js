@@ -447,6 +447,18 @@ function buildBotPanel() {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('### <a:securityloading:1524415908242788523> – Security Bot')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '<a:arrow:1523832007941947543> Enhance your server\'s security with a bot that helps detect threats, enforce rules, and keep your community safe.'
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('**Note:** Please check our [Terms Of Service](https://discord.com/channels/1523717705130315877/1523723223131488412) before starting!')
     );
 
@@ -456,6 +468,11 @@ function buildBotPanel() {
                 .setCustomId('custom_bot')
                 .setLabel('Custom Bot')
                 .setEmoji({ name: 'bot', id: '1524075508407468224' })
+                .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
+                .setCustomId('security_bot')
+                .setLabel('Security Bot')
+                .setEmoji({ name: 'securityloading', id: '1524415908242788523' })
                 .setStyle(ButtonStyle.Primary)
         )
     );
