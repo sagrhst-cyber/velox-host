@@ -435,24 +435,24 @@ function buildBotPanel() {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## <a:bot:1524075508407468224> __**Custom Bot**__')
+        new TextDisplayBuilder().setContent('# <a:bot:1524075508407468224> __**Custom Bot**__')
     );
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '<a:arrow:1523832007941947543> Build a custom bot that matches your business. Customize its responses, personality, and workflow to fit your brand.'
+            '**<a:arrow:1523832007941947543> Build a custom bot that matches your business. Customize its responses, personality, and workflow to fit your brand.**'
         )
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## <a:securityloading:1524415908242788523> __**Security Bot**__')
+        new TextDisplayBuilder().setContent('# <a:securityloading:1524415908242788523> __**Security Bot**__')
     );
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '<a:arrow:1523832007941947543> Enhance your server\'s security with a bot that helps detect threats, enforce rules, and keep your community safe.'
+            '**<a:arrow:1523832007941947543> Enhance your server\'s security with a bot that helps detect threats, enforce rules, and keep your community safe.**'
         )
     );
 
