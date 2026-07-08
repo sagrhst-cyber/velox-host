@@ -1188,7 +1188,7 @@ client.on('interactionCreate', async interaction => {
 
             if (ratingsChannel) {
                 const logContainer = new ContainerBuilder();
-                logContainer.setAccentColor(0x0099ff);
+                logContainer.setAccentColor(0x2b2d31);
                 logContainer.addSectionComponents(
                     new SectionBuilder()
                         .addTextDisplayComponents(
