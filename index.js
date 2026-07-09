@@ -89,9 +89,9 @@ function buildTicketPanel() {
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '• We\'ll open a private ticket for you to speak directly with our support team.\n' +
-            '• We\'ll get back to you as soon as possible with any assistance you will need.\n' +
-            '• Please attach any necessary documents to support a better prompt resolution.'
+            '> • We\'ll open a private ticket for you to speak directly with our support team.\n' +
+            '> • We\'ll get back to you as soon as possible with any assistance you will need.\n' +
+            '> • Please attach any necessary documents to support a better prompt resolution.'
         )
     );
 
