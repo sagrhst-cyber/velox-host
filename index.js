@@ -823,7 +823,7 @@ function buildExchangeWelcomePanel() {
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            'We recommend reviewing our [Terms Of Service](https://discord.com/channels/1523717705130315877/1523723223131488412) and [Fees Documentation](https://discord.com/channels/1523717705130315877/1523723223131488412) to ensure a clear and seamless experience with us.'
+            '**We recommend reviewing our [Terms Of Service](https://discord.com/channels/1523717705130315877/1523723223131488412) and [Fees Documentation](https://discord.com/channels/1523717705130315877/1523723223131488412) to ensure a clear and seamless experience with us.**'
         )
     );
 
