@@ -765,8 +765,7 @@ const RECEIVING_METHODS = [
 
 const CURRENCIES = [
     { label: 'EUR (€)', value: 'EUR' },
-    { label: 'USD ($)', value: 'USD' },
-    { label: 'GBP (£)', value: 'GBP' }
+    { label: 'USD ($)', value: 'USD' }
 ];
 
 const CRYPTOS = [
@@ -790,7 +789,7 @@ function getMethodEmoji(method) {
 }
 
 function getCurrencySymbol(currency) {
-    const map = { EUR: '€', USD: '$', GBP: '£' };
+    const map = { EUR: '€', USD: '$' };
     return map[currency] || currency;
 }
 
@@ -1100,9 +1099,8 @@ function buildCurrencyPanel() {
 
     container.addActionRowComponents(
         new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId('exchange_currency_EUR').setLabel('🇪🇺 EUR (€)').setStyle(ButtonStyle.Secondary),
-            new ButtonBuilder().setCustomId('exchange_currency_USD').setLabel('💲 USD ($)').setStyle(ButtonStyle.Secondary),
-            new ButtonBuilder().setCustomId('exchange_currency_GBP').setLabel('🇬🇧 GBP (£)').setStyle(ButtonStyle.Secondary)
+            new ButtonBuilder().setCustomId('exchange_currency_EUR').setLabel('EUR (€)').setEmoji({ name: 'eur', id: '1510595645193453630', animated: false }).setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('exchange_currency_USD').setLabel('USD ($)').setEmoji({ name: 'usd', id: '1512409093254418576', animated: false }).setStyle(ButtonStyle.Secondary)
         )
     );
 
@@ -1974,9 +1972,8 @@ client.on('interactionCreate', async interaction => {
         if (interaction.customId === 'exchange_ticket_change_currency') {
             await interaction.reply({ content: '💱 Select a new currency:', components: [
                 new ActionRowBuilder().addComponents(
-                    new ButtonBuilder().setCustomId('exchange_currency_EUR').setLabel('🇪🇺 EUR (€)').setStyle(ButtonStyle.Secondary),
-                    new ButtonBuilder().setCustomId('exchange_currency_USD').setLabel('💲 USD ($)').setStyle(ButtonStyle.Secondary),
-                    new ButtonBuilder().setCustomId('exchange_currency_GBP').setLabel('🇬🇧 GBP (£)').setStyle(ButtonStyle.Secondary)
+                    new ButtonBuilder().setCustomId('exchange_currency_EUR').setLabel('EUR (€)').setEmoji({ name: 'eur', id: '1510595645193453630', animated: false }).setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder().setCustomId('exchange_currency_USD').setLabel('USD ($)').setEmoji({ name: 'usd', id: '1512409093254418576', animated: false }).setStyle(ButtonStyle.Secondary)
                 )
             ], flags: 64 });
         }
