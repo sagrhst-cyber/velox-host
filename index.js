@@ -807,7 +807,7 @@ function buildPlansBotPanel() {
         new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Bot Hosting Plans**__')
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+    container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> **Weekly:** €5/week — 24/7 Hosting, 512MB RAM, 1 CPU Core, Auto Restart, Basic Support\n' +
@@ -815,7 +815,7 @@ function buildPlansBotPanel() {
             '> <a:arrow:1523832007941947543> **Yearly:** €50/year — 24/7 Hosting, 2GB RAM, 4 CPU Cores, Auto Restart, VIP Support, Custom Domain, Free Setup')
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+    container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addActionRowComponents(
         new ActionRowBuilder().addComponents(
@@ -849,7 +849,7 @@ function buildPlansDetailPanel() {
         new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Bot Hosting Plans**__')
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+    container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Weekly — €5/week**__')
@@ -858,7 +858,7 @@ function buildPlansDetailPanel() {
         new TextDisplayBuilder().setContent('> ✅ 24/7 Bot Hosting\n> ✅ 512MB RAM\n> ✅ 1 CPU Core\n> ✅ Auto Restart\n> ✅ Basic Support')
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+    container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Monthly — €10/month**__ **(MOST POPULAR)**')
@@ -867,7 +867,7 @@ function buildPlansDetailPanel() {
         new TextDisplayBuilder().setContent('> ✅ 24/7 Bot Hosting\n> ✅ 1GB RAM\n> ✅ 2 CPU Cores\n> ✅ Auto Restart\n> ✅ Priority Support\n> ✅ Custom Domain')
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+    container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Yearly — €50/year**__')
@@ -876,7 +876,7 @@ function buildPlansDetailPanel() {
         new TextDisplayBuilder().setContent('> ✅ 24/7 Bot Hosting\n> ✅ 2GB RAM\n> ✅ 4 CPU Cores\n> ✅ Auto Restart\n> ✅ VIP Support\n> ✅ Custom Domain\n> ✅ Free Setup')
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+    container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addActionRowComponents(
         new ActionRowBuilder().addComponents(
@@ -1441,7 +1441,7 @@ function buildTradeCompletedPanel(data) {
         new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Trade Completed**__')
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+    container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Customer Sent**__')
@@ -1453,7 +1453,7 @@ function buildTradeCompletedPanel(data) {
         )
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+    container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Customer Received**__')
@@ -1465,7 +1465,7 @@ function buildTradeCompletedPanel(data) {
         )
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+    container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('<:velox:1523718046546530365> **Ticket ID:** `' + ('VEX-' + Math.random().toString(36).substr(2, 6).toUpperCase()) + '`')
