@@ -1834,7 +1834,14 @@ client.on('interactionCreate', async interaction => {
         }
 
         if (interaction.customId === 'plans_order_site') {
-            await interaction.reply({ content: '🌐 <https://velox-host-site-production.up.railway.app/order>', flags: 64 });
+            await interaction.reply({ components: [
+                new ActionRowBuilder().addComponents(
+                    new ButtonBuilder()
+                        .setURL('https://velox-host-site-production.up.railway.app/order')
+                        .setLabel('Go to Site')
+                        .setStyle(ButtonStyle.Link)
+                )
+            ], flags: 64 });
         }
 
         // ==================== CUSTOM BOT FLOW ====================
