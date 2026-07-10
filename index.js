@@ -34,6 +34,7 @@ const userSelections = new Map();
 const ticketInfo = new Map();
 const pendingRatings = new Map();
 const exchangeData = new Map();
+const exchangeTickets = new Map();
 
 function getSubjectLabel(subject) {
     const cat = CATEGORIES.find(c => c.value === subject);
@@ -1746,12 +1747,28 @@ client.on('interactionCreate', async interaction => {
 
         if (interaction.customId.startsWith('exchange_currency_')) {
             const currency = interaction.customId.replace('exchange_currency_', '');
-            const data = exchangeData.get(interaction.user.id) || {};
-            data.sendCurrency = currency;
-            data.receiveCurrency = currency;
-            exchangeData.set(interaction.user.id, data);
-            await interaction.deferUpdate();
-            await interaction.editReply(v2Message(buildTradeSummaryPanel(data)));
+
+            const ticketData = exchangeTickets.get(interaction.channel.id);
+            if (ticketData) {
+                ticketData.sendCurrency = currency;
+                ticketData.receiveCurrency = currency;
+                exchangeTickets.set(interaction.channel.id, ticketData);
+
+                const messages = await interaction.channel.messages.fetch({ limit: 10 });
+                const ticketMsg = messages.find(m => m.author.id === client.user.id && m.components.length > 0);
+                if (ticketMsg) {
+                    await ticketMsg.edit(v2Message(buildExchangeTicketContainer(ticketData, ticketData.user)));
+                }
+
+                await interaction.reply({ content: '✅ Currency updated to: **' + currency + '**', flags: 64 });
+            } else {
+                const data = exchangeData.get(interaction.user.id) || {};
+                data.sendCurrency = currency;
+                data.receiveCurrency = currency;
+                exchangeData.set(interaction.user.id, data);
+                await interaction.deferUpdate();
+                await interaction.editReply(v2Message(buildTradeSummaryPanel(data)));
+            }
         }
 
         if (interaction.customId === 'exchange_add_note') {
@@ -1781,6 +1798,7 @@ client.on('interactionCreate', async interaction => {
                 { type: 'Exchange', sendMethod: data.sendMethod, receiveMethod: data.receiveMethod, sendAmount: data.sendAmount, sendCurrency: data.sendCurrency, receiveCurrency: data.receiveCurrency }
             );
 
+            exchangeTickets.set(ticketChannel.id, { ...data, user: interaction.user });
             exchangeData.delete(interaction.user.id);
             await interaction.editReply({ content: '✅ Exchange ticket created: <#' + ticketChannel.id + '>' });
         }
@@ -1820,8 +1838,13 @@ client.on('interactionCreate', async interaction => {
         }
 
         if (interaction.customId === 'exchange_ticket_change_currency') {
-            await interaction.deferReply({ flags: 64 });
-            await interaction.editReply(v2Message(buildCurrencyPanel()));
+            await interaction.reply({ content: '💱 Select a new currency:', components: [
+                new ActionRowBuilder().addComponents(
+                    new ButtonBuilder().setCustomId('exchange_currency_EUR').setLabel('🇪🇺 EUR (€)').setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder().setCustomId('exchange_currency_USD').setLabel('💲 USD ($)').setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder().setCustomId('exchange_currency_GBP').setLabel('🇬🇧 GBP (£)').setStyle(ButtonStyle.Secondary)
+                )
+            ], flags: 64 });
         }
 
         // ==================== TICKET CLOSE & RATE ====================
@@ -1949,7 +1972,22 @@ client.on('interactionCreate', async interaction => {
             if (isNaN(parseFloat(newAmount))) {
                 return interaction.reply({ content: '❌ Please enter a valid number.', flags: 64 });
             }
-            await interaction.reply({ content: '✅ Amount updated to: **' + newAmount + '**', flags: 64 });
+
+            const ticketData = exchangeTickets.get(interaction.channel.id);
+            if (!ticketData) {
+                return interaction.reply({ content: '❌ No exchange ticket data found.', flags: 64 });
+            }
+
+            ticketData.sendAmount = parseFloat(newAmount);
+            exchangeTickets.set(interaction.channel.id, ticketData);
+
+            const messages = await interaction.channel.messages.fetch({ limit: 10 });
+            const ticketMsg = messages.find(m => m.author.id === client.user.id && m.components.length > 0);
+            if (ticketMsg) {
+                await ticketMsg.edit(v2Message(buildExchangeTicketContainer(ticketData, ticketData.user)));
+            }
+
+            await interaction.reply({ content: '✅ Amount updated to: **' + newAmount + getCurrencySymbol(ticketData.sendCurrency) + '**', flags: 64 });
         }
     }
 });
