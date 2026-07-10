@@ -1807,7 +1807,7 @@ client.on('interactionCreate', async interaction => {
 
     if (interaction.isButton()) {
         if (interaction.customId === 'plans_view') {
-            await interaction.reply(v2Message(buildPlansDetailPanel()));
+            await interaction.reply({ ...v2Message(buildPlansDetailPanel()), flags: 64 });
         }
 
         if (interaction.customId === 'plans_visit') {
