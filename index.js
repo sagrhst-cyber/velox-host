@@ -750,10 +750,9 @@ const SENDING_METHODS = [
 ];
 
 const PAYSAFE_TYPES = [
-    { label: 'Greek Paysafe', value: 'greek_paysafe' },
-    { label: 'German Paysafe', value: 'german_paysafe' },
-    { label: 'Spanish Paysafe', value: 'spanish_paysafe' },
-    { label: 'French Paysafe', value: 'french_paysafe' }
+    { label: 'Greek Paysafe', value: 'greek_paysafe', emoji: { name: 'paysafe', id: '1511423152607989792', animated: false } },
+    { label: 'German Paysafe', value: 'german_paysafe', emoji: { name: 'germanpaysafe', id: '1506377708223987794', animated: false } },
+    { label: 'Spanish Paysafe', value: 'spanish_paysafe', emoji: { name: 'spanishpaysafe', id: '1458597910303211724', animated: false } }
 ];
 
 const RECEIVING_METHODS = [
@@ -906,7 +905,8 @@ function buildPaysafeTypePanel() {
         .addOptions(
             PAYSAFE_TYPES.map(t => ({
                 label: t.label,
-                value: t.value
+                value: t.value,
+                emoji: t.emoji
             }))
         );
 
