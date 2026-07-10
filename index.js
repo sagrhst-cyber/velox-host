@@ -828,8 +828,7 @@ function buildPlansBotPanel() {
                 .setCustomId('plans_visit')
                 .setLabel('Visit Site')
                 .setEmoji({ name: 'link', id: '785730578526896178', animated: false })
-                .setStyle(ButtonStyle.Link)
-                .setURL('https://velox-host-site-production.up.railway.app')
+                .setStyle(ButtonStyle.Secondary)
         )
     );
 
@@ -882,11 +881,10 @@ function buildPlansDetailPanel() {
     container.addActionRowComponents(
         new ActionRowBuilder().addComponents(
             new ButtonBuilder()
-                .setCustomId('plans_visit')
+                .setCustomId('plans_order')
                 .setLabel('Order Now')
                 .setEmoji({ name: 'plans', id: '1518267578789920994', animated: false })
-                .setStyle(ButtonStyle.Link)
-                .setURL('https://velox-host-site-production.up.railway.app/order')
+                .setStyle(ButtonStyle.Primary)
         )
     );
 
@@ -1813,7 +1811,11 @@ client.on('interactionCreate', async interaction => {
         }
 
         if (interaction.customId === 'plans_visit') {
-            await interaction.reply({ content: '🌐 Visit our site: https://velox-host-site-production.up.railway.app', flags: 64 });
+            await interaction.reply({ content: '🌐 <https://velox-host-site-production.up.railway.app>', flags: 64 });
+        }
+
+        if (interaction.customId === 'plans_order') {
+            await interaction.reply({ content: '🌐 <https://velox-host-site-production.up.railway.app/order>', flags: 64 });
         }
 
         // ==================== CUSTOM BOT FLOW ====================
