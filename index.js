@@ -742,11 +742,11 @@ const EXCHANGE_BANNER = TICKET_BANNER;
 const EXCHANGE_LOGO = TICKET_LOGO;
 
 const SENDING_METHODS = [
-    { label: 'Paysafe', value: 'paysafe' },
-    { label: 'PayPal', value: 'paypal' },
-    { label: 'Crypto', value: 'crypto' },
-    { label: 'Revolut', value: 'revolut' },
-    { label: 'Bank Transfer', value: 'bank' }
+    { label: 'Paysafe', value: 'paysafe', emoji: { name: 'paysafe', id: '1362775322126319626', animated: false } },
+    { label: 'PayPal', value: 'paypal', emoji: { name: 'PayPal', id: '1297319579680243714', animated: false } },
+    { label: 'Crypto', value: 'crypto', emoji: { name: 'crypto', id: '1515393982677520384', animated: false } },
+    { label: 'Revolut', value: 'revolut', emoji: { name: 'revolut', id: '1513873421891670096', animated: false } },
+    { label: 'Bank Transfer', value: 'bank', emoji: { name: 'bank', id: '1493252178041634836', animated: false } }
 ];
 
 const PAYSAFE_TYPES = [
@@ -757,11 +757,11 @@ const PAYSAFE_TYPES = [
 ];
 
 const RECEIVING_METHODS = [
-    { label: 'Paysafe', value: 'paysafe' },
-    { label: 'PayPal', value: 'paypal' },
-    { label: 'Crypto', value: 'crypto' },
-    { label: 'Revolut', value: 'revolut' },
-    { label: 'Bank Transfer', value: 'bank' }
+    { label: 'Paysafe', value: 'paysafe', emoji: { name: 'paysafe', id: '1362775322126319626', animated: false } },
+    { label: 'PayPal', value: 'paypal', emoji: { name: 'PayPal', id: '1297319579680243714', animated: false } },
+    { label: 'Crypto', value: 'crypto', emoji: { name: 'crypto', id: '1515393982677520384', animated: false } },
+    { label: 'Revolut', value: 'revolut', emoji: { name: 'revolut', id: '1513873421891670096', animated: false } },
+    { label: 'Bank Transfer', value: 'bank', emoji: { name: 'bank', id: '1493252178041634836', animated: false } }
 ];
 
 const CURRENCIES = [
@@ -872,7 +872,8 @@ function buildSendingMethodPanel() {
         .addOptions(
             SENDING_METHODS.map(m => ({
                 label: m.label,
-                value: m.value
+                value: m.value,
+                emoji: m.emoji
             }))
         );
 
@@ -938,7 +939,8 @@ function buildReceivingMethodPanel() {
         .addOptions(
             RECEIVING_METHODS.map(m => ({
                 label: m.label,
-                value: m.value
+                value: m.value,
+                emoji: m.emoji
             }))
         );
 
