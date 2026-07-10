@@ -812,21 +812,21 @@ function buildExchangeWelcomePanel() {
         )
     );
 
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent(
-            '> <a:arrow:1523832007941947543> **Instant & Secure Service**\n' +
-            '> <a:arrow:1523832007941947543> **Transparent Middleman System**'
-        )
-    );
-
-    container.addActionRowComponents(
-        new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId('exchange_start')
-                .setLabel('Start A Trade')
-                .setEmoji({ name: 'exchange', id: '1525100079432863785' })
-                .setStyle(ButtonStyle.Success)
-        )
+    container.addSectionComponents(
+        new SectionBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent(
+                    '> <a:arrow:1523832007941947543> **Instant & Secure Service**\n' +
+                    '> <a:arrow:1523832007941947543> **Transparent Middleman System**'
+                )
+            )
+            .setButtonAccessory(
+                new ButtonBuilder()
+                    .setCustomId('exchange_start')
+                    .setLabel('Start A Trade')
+                    .setEmoji({ name: 'exchange', id: '1525100079432863785' })
+                    .setStyle(ButtonStyle.Success)
+            )
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
