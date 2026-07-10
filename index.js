@@ -801,7 +801,7 @@ function buildExchangeWelcomePanel() {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Welcome To Velox Exchange**__')
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Welcome To Velox Exchange**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -842,6 +842,7 @@ function buildExchangeWelcomePanel() {
             new ButtonBuilder()
                 .setCustomId('exchange_start')
                 .setLabel('Start A Trade')
+                .setEmoji({ name: 'exchange', id: '1525100079432863785' })
                 .setStyle(ButtonStyle.Success)
         )
     );
