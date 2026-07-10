@@ -819,6 +819,16 @@ function buildExchangeWelcomePanel() {
         )
     );
 
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('exchange_start')
+                .setLabel('Start A Trade')
+                .setEmoji({ name: 'exchange', id: '1525100079432863785' })
+                .setStyle(ButtonStyle.Success)
+        )
+    );
+
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
@@ -836,16 +846,6 @@ function buildExchangeWelcomePanel() {
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
-
-    container.addActionRowComponents(
-        new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId('exchange_start')
-                .setLabel('Start A Trade')
-                .setEmoji({ name: 'exchange', id: '1525100079432863785' })
-                .setStyle(ButtonStyle.Success)
-        )
-    );
 
     return container;
 }
