@@ -1815,6 +1815,25 @@ client.on('interactionCreate', async interaction => {
         }
 
         if (interaction.customId === 'plans_order') {
+            await interaction.reply({ content: '🛒 Choose where to go:', components: [
+                new ActionRowBuilder().addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('plans_order_channel')
+                        .setLabel('Order in Discord')
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
+                        .setCustomId('plans_order_site')
+                        .setLabel('Order on Site')
+                        .setStyle(ButtonStyle.Secondary)
+                )
+            ], flags: 64 });
+        }
+
+        if (interaction.customId === 'plans_order_channel') {
+            await interaction.reply({ content: '➡️ <#1525154145970028605>', flags: 64 });
+        }
+
+        if (interaction.customId === 'plans_order_site') {
             await interaction.reply({ content: '🌐 <https://velox-host-site-production.up.railway.app/order>', flags: 64 });
         }
 
