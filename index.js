@@ -779,7 +779,7 @@ function calcFee(amount) {
 }
 
 function getMethodEmoji(method) {
-    const map = { paysafe: '🏦', paypal: '💳', crypto: '₿', revolut: '📱', bank: '🏛️' };
+    const map = { paysafe: '<:velox:1523718046546530365>', paypal: '<:velox:1523718046546530365>', crypto: '<a:exchange:1525100079432863785>', revolut: '<:velox:1523718046546530365>', bank: '<:velox:1523718046546530365>' };
     return map[method] || '';
 }
 
@@ -801,7 +801,7 @@ function buildExchangeWelcomePanel() {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# 🔄 __**Welcome To Velox Exchange**__')
+        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Welcome To Velox Exchange**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -814,8 +814,8 @@ function buildExchangeWelcomePanel() {
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '> 💫 **Instant & Secure Service**\n' +
-            '> 🔍 **Transparent Middleman System**'
+            '> <a:arrow:1523832007941947543> **Instant & Secure Service**\n' +
+            '> <a:arrow:1523832007941947543> **Transparent Middleman System**'
         )
     );
 
@@ -854,13 +854,13 @@ function buildSendingMethodPanel() {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# 📤 __**Sending Method**__')
+        new TextDisplayBuilder().setContent('# <a:arrow:1523832007941947543> __**Sending Method**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> 💫 Please select what you want to **SEND** from the menu below.')
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Please select what you want to **SEND** from the menu below.')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -887,13 +887,13 @@ function buildPaysafeTypePanel() {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# 🏦 __**Paysafe Type**__')
+        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Paysafe Type**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> ❌ Select the specific funding region source.')
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Select the specific funding region source.')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -920,13 +920,13 @@ function buildReceivingMethodPanel() {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# 📥 __**Receiving Method**__')
+        new TextDisplayBuilder().setContent('# <a:arrow:1523832007941947543> __**Receiving Method**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> 💫 What do you want to **RECEIVE**?')
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> What do you want to **RECEIVE**?')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -953,13 +953,13 @@ function buildAmountPanel() {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# 💰 __**Enter Amount**__')
+        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Enter Amount**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> 💫 Choose how you want to enter the amount.')
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Choose how you want to enter the amount.')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -985,13 +985,13 @@ function buildKeypadPanel(amount) {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# 💰 __**Enter Amount**__')
+        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Enter Amount**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> ❌ **Amount:** ' + (amount || '0'))
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> **Amount:** ' + (amount || '0'))
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -1039,13 +1039,13 @@ function buildCurrencyPanel() {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# 💱 __**Select Currency**__')
+        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Select Currency**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> 💫 Please select the **CURRENCY** for this transaction.')
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Please select the **CURRENCY** for this transaction.')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -1071,13 +1071,13 @@ function buildTradeSummaryPanel(data) {
     const receiveSymbol = getCurrencySymbol(data.receiveCurrency);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# 💰 __**Trade Summary** 💰__')
+        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Trade Summary** <a:exchange:1525100079432863785>__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 📤 __**From**__')
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**From**__')
     );
 
     container.addTextDisplayComponents(
@@ -1090,7 +1090,7 @@ function buildTradeSummaryPanel(data) {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 📥 __**To**__')
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**To**__')
     );
 
     container.addTextDisplayComponents(
@@ -1103,14 +1103,14 @@ function buildTradeSummaryPanel(data) {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('💸 **Fee Deducted:** ' + fee.toFixed(2) + sendSymbol + ' (Min Fee ' + EXCHANGE_MIN_FEE.toFixed(2) + sendSymbol + ')')
+        new TextDisplayBuilder().setContent('<a:arrow:1523832007941947543> **Fee Deducted:** ' + fee.toFixed(2) + sendSymbol + ' (Min Fee ' + EXCHANGE_MIN_FEE.toFixed(2) + sendSymbol + ')')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '⚠️ By clicking the confirm button, you are agreeing with all the [Terms Of Service](https://discord.com/channels/1523717705130315877/1523723223131488412) of our server.'
+            '<a:arrow:1523832007941947543> By clicking the confirm button, you are agreeing with all the [Terms Of Service](https://discord.com/channels/1523717705130315877/1523723223131488412) of our server.'
         )
     );
 
@@ -1157,7 +1157,7 @@ function buildExchangeTicketContainer(data, user) {
     container.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('# 🤝 __**Welcome to your Ticket!**__')
+                new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Welcome to your Ticket!**__')
             )
             .setThumbnailAccessory(
                 new ThumbnailBuilder().setURL(EXCHANGE_LOGO)
@@ -1174,21 +1174,21 @@ function buildExchangeTicketContainer(data, user) {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 📋 __**Ticket Status & Rules**__')
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Ticket Status & Rules**__')
     );
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '> ⏰ **Expiration:** This ticket closes automatically in **3 hours** if unclaimed.\n' +
-            '> 🔔 **Bump:** You can notify traders again in **30 minutes**.\n' +
-            '> ⚠️ **Important:** When your ticket gets claimed, make sure to read the trader\'s ToS.'
+            '> <a:arrow:1523832007941947543> **Expiration:** This ticket closes automatically in **3 hours** if unclaimed.\n' +
+            '> <a:arrow:1523832007941947543> **Bump:** You can notify traders again in **30 minutes**.\n' +
+            '> <a:arrow:1523832007941947543> **Important:** When your ticket gets claimed, make sure to read the trader\'s ToS.'
         )
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 📤 __**Customer Sending**__')
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Customer Sending**__')
     );
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
@@ -1200,7 +1200,7 @@ function buildExchangeTicketContainer(data, user) {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 📥 __**Customer Receiving**__')
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Customer Receiving**__')
     );
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
@@ -1212,7 +1212,7 @@ function buildExchangeTicketContainer(data, user) {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('💸 **Fee Deducted:** ' + fee.toFixed(2) + sendSymbol + ' (Min Fee ' + EXCHANGE_MIN_FEE.toFixed(2) + sendSymbol + ')')
+        new TextDisplayBuilder().setContent('<a:arrow:1523832007941947543> **Fee Deducted:** ' + fee.toFixed(2) + sendSymbol + ' (Min Fee ' + EXCHANGE_MIN_FEE.toFixed(2) + sendSymbol + ')')
     );
 
     container.addTextDisplayComponents(
@@ -1251,7 +1251,7 @@ function buildExchangeClosingPanel() {
     container.setAccentColor(0xff0000);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> ⚠️ **Ticket Closing... Saving Transcript...**')
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> **Ticket Closing... Saving Transcript...**')
     );
 
     return container;
@@ -1269,13 +1269,13 @@ function buildTradeCompletedPanel(data) {
     const timeAgo = 'Just now';
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# ✅ __**Trade Completed**__')
+        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Trade Completed**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 📤 __**Customer Sent**__')
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Customer Sent**__')
     );
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
@@ -1287,7 +1287,7 @@ function buildTradeCompletedPanel(data) {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 📥 __**Customer Received**__')
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Customer Received**__')
     );
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
@@ -1299,11 +1299,11 @@ function buildTradeCompletedPanel(data) {
     container.addSeparatorComponents(new SeparatorBuilder());
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('🆔 **Ticket ID:** `' + ('VEX-' + Math.random().toString(36).substr(2, 6).toUpperCase()) + '`')
+        new TextDisplayBuilder().setContent('<:velox:1523718046546530365> **Ticket ID:** `' + ('VEX-' + Math.random().toString(36).substr(2, 6).toUpperCase()) + '`')
     );
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('🕐 Completed ' + timeAgo)
+        new TextDisplayBuilder().setContent('<a:arrow:1523832007941947543> Completed ' + timeAgo)
     );
 
     return container;
