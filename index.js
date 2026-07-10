@@ -855,7 +855,7 @@ function buildSendingMethodPanel() {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# <a:arrow:1523832007941947543> __**Sending Method**__')
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Sending Method**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
