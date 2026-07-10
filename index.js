@@ -1520,6 +1520,37 @@ client.on('interactionCreate', async interaction => {
                 content: '✅ Ticket created: <#' + ticketChannel.id + '>'
             });
         }
+
+        if (interaction.customId === 'exchange_sending_method') {
+            const method = interaction.values[0];
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.sendMethod = method;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            if (method === 'paysafe') {
+                await interaction.editReply(v2Message(buildPaysafeTypePanel()));
+            } else {
+                await interaction.editReply(v2Message(buildReceivingMethodPanel()));
+            }
+        }
+
+        if (interaction.customId === 'exchange_paysafe_type') {
+            const paysafeType = interaction.values[0];
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.sendPaysafeType = paysafeType;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            await interaction.editReply(v2Message(buildReceivingMethodPanel()));
+        }
+
+        if (interaction.customId === 'exchange_receiving_method') {
+            const method = interaction.values[0];
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.receiveMethod = method;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            await interaction.editReply(v2Message(buildAmountPanel()));
+        }
     }
 
     if (interaction.isButton()) {
@@ -1649,37 +1680,6 @@ client.on('interactionCreate', async interaction => {
             await interaction.deferReply({ flags: 64 });
             exchangeData.set(interaction.user.id, {});
             await interaction.editReply(v2Message(buildSendingMethodPanel()));
-        }
-
-        if (interaction.customId === 'exchange_sending_method') {
-            const method = interaction.values[0];
-            const data = exchangeData.get(interaction.user.id) || {};
-            data.sendMethod = method;
-            exchangeData.set(interaction.user.id, data);
-            await interaction.deferUpdate();
-            if (method === 'paysafe') {
-                await interaction.editReply(v2Message(buildPaysafeTypePanel()));
-            } else {
-                await interaction.editReply(v2Message(buildReceivingMethodPanel()));
-            }
-        }
-
-        if (interaction.customId === 'exchange_paysafe_type') {
-            const paysafeType = interaction.values[0];
-            const data = exchangeData.get(interaction.user.id) || {};
-            data.sendPaysafeType = paysafeType;
-            exchangeData.set(interaction.user.id, data);
-            await interaction.deferUpdate();
-            await interaction.editReply(v2Message(buildReceivingMethodPanel()));
-        }
-
-        if (interaction.customId === 'exchange_receiving_method') {
-            const method = interaction.values[0];
-            const data = exchangeData.get(interaction.user.id) || {};
-            data.receiveMethod = method;
-            exchangeData.set(interaction.user.id, data);
-            await interaction.deferUpdate();
-            await interaction.editReply(v2Message(buildAmountPanel()));
         }
 
         if (interaction.customId === 'exchange_amount_modal') {
