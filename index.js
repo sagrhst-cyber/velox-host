@@ -1015,10 +1015,12 @@ function buildAmountPanel() {
             new ButtonBuilder()
                 .setCustomId('exchange_amount_modal')
                 .setLabel('Enter Amount (Modal)')
+                .setEmoji({ name: 'modal', id: '1518267578789920994', animated: false })
                 .setStyle(ButtonStyle.Primary),
             new ButtonBuilder()
                 .setCustomId('exchange_amount_keypad')
                 .setLabel('Enter Amount (Keypad)')
+                .setEmoji({ name: 'keypad', id: '785730578526896178', animated: false })
                 .setStyle(ButtonStyle.Secondary)
         )
     );
