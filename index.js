@@ -770,10 +770,10 @@ const CURRENCIES = [
 ];
 
 const CRYPTOS = [
-    { label: 'Bitcoin (BTC)', value: 'btc' },
-    { label: 'Ethereum (ETH)', value: 'eth' },
-    { label: 'Litecoin (LTC)', value: 'ltc' },
-    { label: 'Solana (SOL)', value: 'sol' }
+    { label: 'Bitcoin (BTC)', value: 'btc', emoji: { name: 'btc', id: '1494787696831369237', animated: false } },
+    { label: 'Ethereum (ETH)', value: 'eth', emoji: { name: 'eth', id: '1455756351031476356', animated: false } },
+    { label: 'Litecoin (LTC)', value: 'ltc', emoji: { name: 'ltc', id: '1505168789745176758', animated: false } },
+    { label: 'Solana (SOL)', value: 'sol', emoji: { name: 'sol', id: '1512409109889028146', animated: false } }
 ];
 
 const EXCHANGE_FEE_RATE = 0.20;
@@ -980,7 +980,8 @@ function buildCryptoSelectPanel(type) {
         .addOptions(
             CRYPTOS.map(c => ({
                 label: c.label,
-                value: c.value
+                value: c.value,
+                emoji: c.emoji
             }))
         );
 
