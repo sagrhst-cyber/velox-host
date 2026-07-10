@@ -1806,7 +1806,6 @@ client.on('interactionCreate', async interaction => {
         }
 
         if (interaction.customId === 'exchange_ticket_change_amount') {
-            await interaction.deferReply({ flags: 64 });
             const modal = new ModalBuilder()
                 .setCustomId('exchange_change_amount_modal')
                 .setTitle('Change Amount');
