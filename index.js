@@ -983,6 +983,14 @@ function buildSupportPanel() {
             )
     );
 
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
     return container;
 }
 
