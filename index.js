@@ -916,7 +916,7 @@ function buildSupportPanel() {
     container.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('## 🔧 General Support\n> Need assistance? Contact our team for help with exchanges, questions, technical issues or any other concerns.')
+                new TextDisplayBuilder().setContent('## 🔧 〻 General Support\n> Need assistance? Contact our team for help with exchanges, questions, technical issues or any other concerns.')
             )
             .setButtonAccessory(
                 new ButtonBuilder().setCustomId('support_general').setEmoji('🔧').setStyle(ButtonStyle.Danger)
@@ -928,7 +928,7 @@ function buildSupportPanel() {
     container.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('## 🔄 Start Trading\n> Exchange safely, build your reputation and complete secure trades with our community.')
+                new TextDisplayBuilder().setContent('## 🔄 〻 Start Trading\n> Exchange safely, build your reputation and complete secure trades with our community.')
             )
             .setButtonAccessory(
                 new ButtonBuilder().setCustomId('support_trading').setEmoji('🔄').setStyle(ButtonStyle.Primary)
@@ -940,7 +940,7 @@ function buildSupportPanel() {
     container.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('## 👥 Join The Crew\n> Help manage the community, support members, maintain order and contribute to the future of Velox.')
+                new TextDisplayBuilder().setContent('## 👥 〻 Join The Crew\n> Help manage the community, support members, maintain order and contribute to the future of Velox.')
             )
             .setButtonAccessory(
                 new ButtonBuilder().setCustomId('support_crew').setEmoji('👥').setStyle(ButtonStyle.Primary)
@@ -952,7 +952,7 @@ function buildSupportPanel() {
     container.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('## ⚠️ Scammer Report\n> Been Scammed? Report It To Our Official Security Partners And Help Keep The Community Safe.')
+                new TextDisplayBuilder().setContent('## ⚠️ 〻 Scammer Report\n> Been Scammed? Report It To Our Official Security Partners And Help Keep The Community Safe.')
             )
             .setButtonAccessory(
                 new ButtonBuilder().setCustomId('support_scammer').setEmoji('⚠️').setStyle(ButtonStyle.Danger)
@@ -964,7 +964,7 @@ function buildSupportPanel() {
     container.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('## 📢 Advertisement\n> Advertise your server or community inside Velox and reach a wider audience.')
+                new TextDisplayBuilder().setContent('## 📢 〻 Advertisement\n> Advertise your server or community inside Velox and reach a wider audience.')
             )
             .setButtonAccessory(
                 new ButtonBuilder().setCustomId('support_ads').setEmoji('📢').setStyle(ButtonStyle.Secondary)
@@ -976,7 +976,7 @@ function buildSupportPanel() {
     container.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('## 🤝 Partnerships\n> Partner with Velox for mutual promotion and grow your community alongside ours.')
+                new TextDisplayBuilder().setContent('## 🤝 〻 Partnerships\n> Partner with Velox for mutual promotion and grow your community alongside ours.')
             )
             .setButtonAccessory(
                 new ButtonBuilder().setCustomId('support_partners').setEmoji('🤝').setStyle(ButtonStyle.Primary)
