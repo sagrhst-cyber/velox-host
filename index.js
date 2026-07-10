@@ -1050,9 +1050,9 @@ function buildCurrencyPanel() {
 
     container.addActionRowComponents(
         new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId('exchange_currency_EUR').setLabel('EUR (€)').setStyle(ButtonStyle.Secondary),
-            new ButtonBuilder().setCustomId('exchange_currency_USD').setLabel('USD ($)').setStyle(ButtonStyle.Secondary),
-            new ButtonBuilder().setCustomId('exchange_currency_GBP').setLabel('GBP (£)').setStyle(ButtonStyle.Secondary)
+            new ButtonBuilder().setCustomId('exchange_currency_EUR').setLabel('🇪🇺 EUR (€)').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('exchange_currency_USD').setLabel('💲 USD ($)').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('exchange_currency_GBP').setLabel('🇬🇧 GBP (£)').setStyle(ButtonStyle.Secondary)
         )
     );
 
