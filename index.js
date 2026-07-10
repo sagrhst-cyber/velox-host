@@ -891,6 +891,116 @@ function buildPlansDetailPanel() {
     return container;
 }
 
+function buildSupportPanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> | Velox Support Panel')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> 🔧 Our team is here to help. Response times may vary depending on our load, but we\'ll get to you as fast as we can.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 🔧 General Support')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> Need assistance? Contact our team for help with exchanges, questions, technical issues or any other concerns.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 🔄 Start Trading')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> Exchange safely, build your reputation and complete secure trades with our community.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 👥 Join The Crew')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> Help manage the community, support members, maintain order and contribute to the future of Velox.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## ⚠️ Scammer Report')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> Been Scammed? Report It To Our Official Security Partners And Help Keep The Community Safe.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 📢 Advertisement')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> Advertise your server or community inside Velox and reach a wider audience.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 🤝 Partnerships')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> Partner with Velox for mutual promotion and grow your community alongside ours.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('support_general').setLabel('General Support').setEmoji('🔧').setStyle(ButtonStyle.Danger)
+        )
+    );
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('support_trading').setLabel('Start Trading').setEmoji('🔄').setStyle(ButtonStyle.Primary)
+        )
+    );
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('support_crew').setLabel('Join The Crew').setEmoji('👥').setStyle(ButtonStyle.Primary)
+        )
+    );
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('support_scammer').setLabel('Scammer Report').setEmoji('⚠️').setStyle(ButtonStyle.Danger)
+        )
+    );
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('support_ads').setLabel('Advertisement').setEmoji('📢').setStyle(ButtonStyle.Secondary)
+        )
+    );
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('support_partners').setLabel('Partnerships').setEmoji('🤝').setStyle(ButtonStyle.Primary)
+        )
+    );
+
+    return container;
+}
+
 function buildExchangeWelcomePanel() {
     const container = new ContainerBuilder();
     container.setAccentColor(0x00ffff);
@@ -1734,6 +1844,13 @@ client.on('interactionCreate', async interaction => {
             }
             await interaction.reply(v2Message(buildPlansBotPanel()));
         }
+
+        if (interaction.commandName === 'support') {
+            if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+                return interaction.reply({ content: '❌ You need Administrator permission.', ephemeral: true });
+            }
+            await interaction.reply(v2Message(buildSupportPanel()));
+        }
     }
 
     if (interaction.isStringSelectMenu()) {
@@ -1842,6 +1959,23 @@ client.on('interactionCreate', async interaction => {
                         .setStyle(ButtonStyle.Link)
                 )
             ], flags: 64 });
+        }
+
+        // ==================== SUPPORT PANEL ====================
+        const supportCategories = {
+            support_general: 'General Support',
+            support_trading: 'Start Trading',
+            support_crew: 'Join The Crew',
+            support_scammer: 'Scammer Report',
+            support_ads: 'Advertisement',
+            support_partners: 'Partnerships'
+        };
+
+        if (supportCategories[interaction.customId]) {
+            await interaction.deferReply({ flags: 64 });
+            const category = supportCategories[interaction.customId];
+            const ticketChannel = await createTicketChannel(interaction.guild, interaction.user, buildTicketContainer(category, interaction.user), { type: 'Support', category });
+            await interaction.editReply({ content: '✅ Ticket created: <#' + ticketChannel.id + '>' });
         }
 
         // ==================== CUSTOM BOT FLOW ====================
