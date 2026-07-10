@@ -888,7 +888,7 @@ function buildPaysafeTypePanel() {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Paysafe Type**__')
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Paysafe Type**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -921,7 +921,7 @@ function buildReceivingMethodPanel() {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# <a:arrow:1523832007941947543> __**Receiving Method**__')
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Receiving Method**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -954,7 +954,7 @@ function buildAmountPanel() {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Enter Amount**__')
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Enter Amount**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -986,7 +986,7 @@ function buildKeypadPanel(amount) {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Enter Amount**__')
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Enter Amount**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -1040,7 +1040,7 @@ function buildCurrencyPanel() {
     container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Select Currency**__')
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Select Currency**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -1072,7 +1072,7 @@ function buildTradeSummaryPanel(data) {
     const receiveSymbol = getCurrencySymbol(data.receiveCurrency);
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Trade Summary** <a:exchange:1525100079432863785>__')
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Trade Summary** <:velox:1523718046546530365>__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -1158,7 +1158,7 @@ function buildExchangeTicketContainer(data, user) {
     container.addSectionComponents(
         new SectionBuilder()
             .addTextDisplayComponents(
-                new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Welcome to your Ticket!**__')
+                new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Welcome to your Ticket!**__')
             )
             .setThumbnailAccessory(
                 new ThumbnailBuilder().setURL(EXCHANGE_LOGO)
@@ -1270,7 +1270,7 @@ function buildTradeCompletedPanel(data) {
     const timeAgo = 'Just now';
 
     container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('# <a:exchange:1525100079432863785> __**Trade Completed**__')
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Trade Completed**__')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
