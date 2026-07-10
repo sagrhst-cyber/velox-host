@@ -33,6 +33,7 @@ const CATEGORIES = [
 const userSelections = new Map();
 const ticketInfo = new Map();
 const pendingRatings = new Map();
+const exchangeData = new Map();
 
 function getSubjectLabel(subject) {
     const cat = CATEGORIES.find(c => c.value === subject);
@@ -733,6 +734,527 @@ function buildRatePanel() {
     return container;
 }
 
+// ==================== EXCHANGE SYSTEM ====================
+
+const EXCHANGE_BANNER = TICKET_BANNER;
+const EXCHANGE_LOGO = TICKET_LOGO;
+
+const SENDING_METHODS = [
+    { label: 'Paysafe', value: 'paysafe' },
+    { label: 'PayPal', value: 'paypal' },
+    { label: 'Crypto', value: 'crypto' },
+    { label: 'Revolut', value: 'revolut' },
+    { label: 'Bank Transfer', value: 'bank' }
+];
+
+const PAYSAFE_TYPES = [
+    { label: 'Greek Paysafe', value: 'greek_paysafe' },
+    { label: 'German Paysafe', value: 'german_paysafe' },
+    { label: 'Spanish Paysafe', value: 'spanish_paysafe' },
+    { label: 'French Paysafe', value: 'french_paysafe' }
+];
+
+const RECEIVING_METHODS = [
+    { label: 'Paysafe', value: 'paysafe' },
+    { label: 'PayPal', value: 'paypal' },
+    { label: 'Crypto', value: 'crypto' },
+    { label: 'Revolut', value: 'revolut' },
+    { label: 'Bank Transfer', value: 'bank' }
+];
+
+const CURRENCIES = [
+    { label: 'EUR (€)', value: 'EUR' },
+    { label: 'USD ($)', value: 'USD' },
+    { label: 'GBP (£)', value: 'GBP' }
+];
+
+const EXCHANGE_FEE_RATE = 0.20;
+const EXCHANGE_MIN_FEE = 0.70;
+
+function calcFee(amount) {
+    const fee = amount * EXCHANGE_FEE_RATE;
+    return Math.max(fee, EXCHANGE_MIN_FEE);
+}
+
+function getMethodEmoji(method) {
+    const map = { paysafe: '🏦', paypal: '💳', crypto: '₿', revolut: '📱', bank: '🏛️' };
+    return map[method] || '';
+}
+
+function getCurrencySymbol(currency) {
+    const map = { EUR: '€', USD: '$', GBP: '£' };
+    return map[currency] || currency;
+}
+
+function buildExchangeWelcomePanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x9b59b6);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(EXCHANGE_BANNER)
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# 🔄 __**Welcome To Velox Exchange**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            'At **Velox Exchange**, we make all kind of trades simple and safe. Whether you\'re just starting out or you have experience in exchanging, we\'ve got you covered. What we offer:'
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> 💫 **Instant & Secure Service**\n' +
+            '> 🔍 **Transparent Middleman System**'
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            'We recommend reviewing our [Terms Of Service](https://discord.com/channels/1523717705130315877/1523723223131488412) and [Fees Documentation](https://discord.com/channels/1523717705130315877/1523723223131488412) to ensure a clear and seamless experience with us.'
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(EXCHANGE_BANNER)
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('exchange_start')
+                .setLabel('Start A Trade')
+                .setStyle(ButtonStyle.Success)
+        )
+    );
+
+    return container;
+}
+
+function buildSendingMethodPanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x9b59b6);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# 📤 __**Sending Method**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> 💫 Please select what you want to **SEND** from the menu below.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    const selectMenu = new StringSelectMenuBuilder()
+        .setCustomId('exchange_sending_method')
+        .setPlaceholder('Select Payment Method')
+        .addOptions(
+            SENDING_METHODS.map(m => ({
+                label: m.label,
+                value: m.value
+            }))
+        );
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(selectMenu)
+    );
+
+    return container;
+}
+
+function buildPaysafeTypePanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x9b59b6);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# 🏦 __**Paysafe Type**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> ❌ Select the specific funding region source.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    const selectMenu = new StringSelectMenuBuilder()
+        .setCustomId('exchange_paysafe_type')
+        .setPlaceholder('Select Paysafe Type')
+        .addOptions(
+            PAYSAFE_TYPES.map(t => ({
+                label: t.label,
+                value: t.value
+            }))
+        );
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(selectMenu)
+    );
+
+    return container;
+}
+
+function buildReceivingMethodPanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x9b59b6);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# 📥 __**Receiving Method**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> 💫 What do you want to **RECEIVE**?')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    const selectMenu = new StringSelectMenuBuilder()
+        .setCustomId('exchange_receiving_method')
+        .setPlaceholder('What will you be receiving?')
+        .addOptions(
+            RECEIVING_METHODS.map(m => ({
+                label: m.label,
+                value: m.value
+            }))
+        );
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(selectMenu)
+    );
+
+    return container;
+}
+
+function buildAmountPanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x9b59b6);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# 💰 __**Enter Amount**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> 💫 Choose how you want to enter the amount.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('exchange_amount_modal')
+                .setLabel('Enter Amount (Modal)')
+                .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
+                .setCustomId('exchange_amount_keypad')
+                .setLabel('Enter Amount (Keypad)')
+                .setStyle(ButtonStyle.Secondary)
+        )
+    );
+
+    return container;
+}
+
+function buildKeypadPanel(amount) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x9b59b6);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# 💰 __**Enter Amount**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> ❌ **Amount:** ' + (amount || '0'))
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('kp_1').setLabel('1').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('kp_2').setLabel('2').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('kp_3').setLabel('3').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('kp_back').setLabel('⌫').setStyle(ButtonStyle.Danger)
+        )
+    );
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('kp_4').setLabel('4').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('kp_5').setLabel('5').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('kp_6').setLabel('6').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('kp_clear').setLabel('C').setStyle(ButtonStyle.Danger)
+        )
+    );
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('kp_7').setLabel('7').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('kp_8').setLabel('8').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('kp_9').setLabel('9').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('kp_dot').setLabel('.').setStyle(ButtonStyle.Secondary)
+        )
+    );
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('kp_0').setLabel('0').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('kp_ok').setLabel('OK').setStyle(ButtonStyle.Success),
+            new ButtonBuilder().setCustomId('kp_cancel').setLabel('Cancel').setStyle(ButtonStyle.Danger)
+        )
+    );
+
+    return container;
+}
+
+function buildCurrencyPanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x9b59b6);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# 💱 __**Select Currency**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> 💫 Please select the **CURRENCY** for this transaction.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('exchange_currency_EUR').setLabel('EUR (€)').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('exchange_currency_USD').setLabel('USD ($)').setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder().setCustomId('exchange_currency_GBP').setLabel('GBP (£)').setStyle(ButtonStyle.Secondary)
+        )
+    );
+
+    return container;
+}
+
+function buildTradeSummaryPanel(data) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x9b59b6);
+
+    const fee = calcFee(data.sendAmount);
+    const receiveAmount = (data.sendAmount - fee).toFixed(2);
+    const sendSymbol = getCurrencySymbol(data.sendCurrency);
+    const receiveSymbol = getCurrencySymbol(data.receiveCurrency);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# 💰 __**Trade Summary** 💰__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 📤 __**From**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Method:** ' + getMethodEmoji(data.sendMethod) + ' ' + data.sendMethod.charAt(0).toUpperCase() + data.sendMethod.slice(1) + '\n' +
+            '> **Sending Amount:** ' + data.sendAmount.toFixed(2) + sendSymbol
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 📥 __**To**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Method:** ' + getMethodEmoji(data.receiveMethod) + ' ' + data.receiveMethod.charAt(0).toUpperCase() + data.receiveMethod.slice(1) + '\n' +
+            '> **Receiving Amount:** ' + receiveAmount + receiveSymbol
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('💸 **Fee Deducted:** ' + fee.toFixed(2) + sendSymbol + ' (Min Fee ' + EXCHANGE_MIN_FEE.toFixed(2) + sendSymbol + ')')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '⚠️ By clicking the confirm button, you are agreeing with all the [Terms Of Service](https://discord.com/channels/1523717705130315877/1523723223131488412) of our server.'
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('exchange_confirm')
+                .setLabel('Confirm & Create Ticket')
+                .setStyle(ButtonStyle.Success),
+            new ButtonBuilder()
+                .setCustomId('exchange_add_note')
+                .setLabel('Add Note')
+                .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
+                .setCustomId('exchange_cancel')
+                .setLabel('Cancel Process')
+                .setStyle(ButtonStyle.Danger)
+        )
+    );
+
+    return container;
+}
+
+function buildExchangeTicketContainer(data, user) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x9b59b6);
+
+    const fee = calcFee(data.sendAmount);
+    const receiveAmount = (data.sendAmount - fee).toFixed(2);
+    const sendSymbol = getCurrencySymbol(data.sendCurrency);
+    const receiveSymbol = getCurrencySymbol(data.receiveCurrency);
+    const ticketId = 'VEX-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(EXCHANGE_BANNER)
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addSectionComponents(
+        new SectionBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent('# 🤝 __**Welcome to your Ticket!**__')
+            )
+            .setThumbnailAccessory(
+                new ThumbnailBuilder().setURL(EXCHANGE_LOGO)
+            )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('**Customer:** <@' + user.id + '>')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('**Badge:** None')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 📋 __**Ticket Status & Rules**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> ⏰ **Expiration:** This ticket closes automatically in **3 hours** if unclaimed.\n' +
+            '> 🔔 **Bump:** You can notify traders again in **30 minutes**.\n' +
+            '> ⚠️ **Important:** When your ticket gets claimed, make sure to read the trader\'s ToS.'
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 📤 __**Customer Sending**__')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Method:** ' + getMethodEmoji(data.sendMethod) + ' ' + data.sendMethod.charAt(0).toUpperCase() + data.sendMethod.slice(1) + '\n' +
+            '> **Sending Amount:** ' + data.sendAmount.toFixed(2) + sendSymbol
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 📥 __**Customer Receiving**__')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Method:** ' + getMethodEmoji(data.receiveMethod) + ' ' + data.receiveMethod.charAt(0).toUpperCase() + data.receiveMethod.slice(1) + '\n' +
+            '> **Receiving Amount:** ' + receiveAmount + receiveSymbol
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('💸 **Fee Deducted:** ' + fee.toFixed(2) + sendSymbol + ' (Min Fee ' + EXCHANGE_MIN_FEE.toFixed(2) + sendSymbol + ')')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('🆔 **Ticket ID:** `' + ticketId + '`')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('exchange_ticket_close')
+                .setLabel('Close Ticket')
+                .setEmoji({ name: 'close', id: '1514086733757681715' })
+                .setStyle(ButtonStyle.Danger),
+            new ButtonBuilder()
+                .setCustomId('exchange_ticket_notify')
+                .setLabel('Notify Again')
+                .setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder()
+                .setCustomId('exchange_ticket_change_amount')
+                .setLabel('Change Amount')
+                .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
+                .setCustomId('exchange_ticket_change_currency')
+                .setLabel('Change Currency')
+                .setStyle(ButtonStyle.Primary)
+        )
+    );
+
+    return container;
+}
+
+function buildExchangeClosingPanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0xff0000);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> ⚠️ **Ticket Closing... Saving Transcript...**')
+    );
+
+    return container;
+}
+
 // ==================== CREATE TICKET CHANNEL ====================
 
 async function createTicketChannel(guild, user, container, info = null) {
@@ -975,6 +1497,13 @@ client.on('interactionCreate', async interaction => {
             }
             await interaction.reply(v2Message(buildVerifyPanel()));
         }
+
+        if (interaction.commandName === 'exchangesetup') {
+            if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+                return interaction.reply({ content: '❌ You need Administrator permission.', ephemeral: true });
+            }
+            await interaction.reply(v2Message(buildExchangeWelcomePanel()));
+        }
     }
 
     if (interaction.isStringSelectMenu()) {
@@ -1115,6 +1644,187 @@ client.on('interactionCreate', async interaction => {
             });
         }
 
+        // ==================== EXCHANGE FLOW ====================
+        if (interaction.customId === 'exchange_start') {
+            await interaction.deferReply({ flags: 64 });
+            exchangeData.set(interaction.user.id, {});
+            await interaction.editReply(v2Message(buildSendingMethodPanel()));
+        }
+
+        if (interaction.customId === 'exchange_sending_method') {
+            const method = interaction.values[0];
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.sendMethod = method;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            if (method === 'paysafe') {
+                await interaction.editReply(v2Message(buildPaysafeTypePanel()));
+            } else {
+                await interaction.editReply(v2Message(buildReceivingMethodPanel()));
+            }
+        }
+
+        if (interaction.customId === 'exchange_paysafe_type') {
+            const paysafeType = interaction.values[0];
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.sendPaysafeType = paysafeType;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            await interaction.editReply(v2Message(buildReceivingMethodPanel()));
+        }
+
+        if (interaction.customId === 'exchange_receiving_method') {
+            const method = interaction.values[0];
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.receiveMethod = method;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            await interaction.editReply(v2Message(buildAmountPanel()));
+        }
+
+        if (interaction.customId === 'exchange_amount_modal') {
+            const modal = new ModalBuilder()
+                .setCustomId('exchange_amount_modal_submit')
+                .setTitle('Enter Amount');
+            const amountInput = new TextInputBuilder()
+                .setCustomId('exchange_amount_input')
+                .setLabel('Amount')
+                .setStyle(TextInputStyle.Short)
+                .setPlaceholder('Enter the amount...')
+                .setRequired(true);
+            modal.addComponents(new ActionRowBuilder().addComponents(amountInput));
+            await interaction.showModal(modal);
+        }
+
+        if (interaction.customId === 'exchange_amount_keypad') {
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.keypadAmount = '';
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            await interaction.editReply(v2Message(buildKeypadPanel('')));
+        }
+
+        if (interaction.customId.startsWith('kp_')) {
+            const data = exchangeData.get(interaction.user.id) || {};
+            let amount = data.keypadAmount || '';
+
+            if (interaction.customId === 'kp_cancel') {
+                exchangeData.delete(interaction.user.id);
+                await interaction.deferUpdate();
+                await interaction.message.delete().catch(() => {});
+                return;
+            }
+
+            if (interaction.customId === 'kp_ok') {
+                if (!amount || isNaN(parseFloat(amount))) {
+                    return interaction.reply({ content: '❌ Please enter a valid amount.', flags: 64 });
+                }
+                data.sendAmount = parseFloat(amount);
+                delete data.keypadAmount;
+                exchangeData.set(interaction.user.id, data);
+                await interaction.deferUpdate();
+                await interaction.editReply(v2Message(buildCurrencyPanel()));
+                return;
+            }
+
+            if (interaction.customId === 'kp_back') {
+                amount = amount.slice(0, -1);
+            } else if (interaction.customId === 'kp_clear') {
+                amount = '';
+            } else if (interaction.customId === 'kp_dot') {
+                if (!amount.includes('.')) amount += amount ? '.' : '0.';
+            } else {
+                const digit = interaction.customId.replace('kp_', '');
+                amount += digit;
+            }
+
+            data.keypadAmount = amount;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            await interaction.editReply(v2Message(buildKeypadPanel(amount)));
+        }
+
+        if (interaction.customId.startsWith('exchange_currency_')) {
+            const currency = interaction.customId.replace('exchange_currency_', '');
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.sendCurrency = currency;
+            data.receiveCurrency = currency;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            await interaction.editReply(v2Message(buildTradeSummaryPanel(data)));
+        }
+
+        if (interaction.customId === 'exchange_add_note') {
+            const modal = new ModalBuilder()
+                .setCustomId('exchange_note_modal')
+                .setTitle('Add Note');
+            const noteInput = new TextInputBuilder()
+                .setCustomId('exchange_note_text')
+                .setLabel('Note')
+                .setStyle(TextInputStyle.Paragraph)
+                .setPlaceholder('Add any additional notes...')
+                .setRequired(false);
+            modal.addComponents(new ActionRowBuilder().addComponents(noteInput));
+            await interaction.showModal(modal);
+        }
+
+        if (interaction.customId === 'exchange_confirm') {
+            const data = exchangeData.get(interaction.user.id);
+            if (!data) return interaction.reply({ content: '❌ No trade data found.', flags: 64 });
+
+            await interaction.deferReply({ flags: 64 });
+
+            const ticketChannel = await createTicketChannel(
+                interaction.guild,
+                interaction.user,
+                buildExchangeTicketContainer(data, interaction.user),
+                { type: 'Exchange', sendMethod: data.sendMethod, receiveMethod: data.receiveMethod, sendAmount: data.sendAmount, sendCurrency: data.sendCurrency, receiveCurrency: data.receiveCurrency }
+            );
+
+            exchangeData.delete(interaction.user.id);
+            await interaction.editReply({ content: '✅ Exchange ticket created: <#' + ticketChannel.id + '>' });
+        }
+
+        if (interaction.customId === 'exchange_cancel') {
+            exchangeData.delete(interaction.user.id);
+            await interaction.deferUpdate();
+            await interaction.message.delete().catch(() => {});
+        }
+
+        if (interaction.customId === 'exchange_ticket_close') {
+            if (!interaction.member.permissions.has(PermissionFlagsBits.ManageChannels) && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+                return interaction.reply({ content: '❌ Only staff can close tickets.', ephemeral: true });
+            }
+            await interaction.reply(v2Message(buildExchangeClosingPanel()));
+            setTimeout(async () => {
+                await interaction.channel.delete().catch(() => {});
+            }, 3000);
+        }
+
+        if (interaction.customId === 'exchange_ticket_notify') {
+            await interaction.reply({ content: '🔔 <@' + interaction.user.id + '> bumped the ticket!', flags: 64 });
+        }
+
+        if (interaction.customId === 'exchange_ticket_change_amount') {
+            await interaction.deferReply({ flags: 64 });
+            const modal = new ModalBuilder()
+                .setCustomId('exchange_change_amount_modal')
+                .setTitle('Change Amount');
+            const amountInput = new TextInputBuilder()
+                .setCustomId('new_amount_input')
+                .setLabel('New Amount')
+                .setStyle(TextInputStyle.Short)
+                .setPlaceholder('Enter new amount...')
+                .setRequired(true);
+            modal.addComponents(new ActionRowBuilder().addComponents(amountInput));
+            await interaction.showModal(modal);
+        }
+
+        if (interaction.customId === 'exchange_ticket_change_currency') {
+            await interaction.deferReply({ flags: 64 });
+            await interaction.editReply(v2Message(buildCurrencyPanel()));
+        }
+
         // ==================== TICKET CLOSE & RATE ====================
         if (interaction.customId === 'ticket_close') {
             if (!interaction.member.permissions.has(PermissionFlagsBits.ManageChannels) && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
@@ -1215,6 +1925,32 @@ client.on('interactionCreate', async interaction => {
             setTimeout(async () => {
                 if (channel) await channel.delete().catch(() => {});
             }, 3000);
+        }
+        if (interaction.customId === 'exchange_amount_modal_submit') {
+            const amount = interaction.fields.getTextInputValue('exchange_amount_input');
+            if (isNaN(parseFloat(amount))) {
+                return interaction.reply({ content: '❌ Please enter a valid number.', flags: 64 });
+            }
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.sendAmount = parseFloat(amount);
+            exchangeData.set(interaction.user.id, data);
+            await interaction.reply({ content: '✅ Amount set: **' + amount + '**', flags: 64 });
+        }
+
+        if (interaction.customId === 'exchange_note_modal') {
+            const note = interaction.fields.getTextInputValue('exchange_note_text');
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.note = note;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.reply({ content: '✅ Note added: ' + note, flags: 64 });
+        }
+
+        if (interaction.customId === 'exchange_change_amount_modal') {
+            const newAmount = interaction.fields.getTextInputValue('new_amount_input');
+            if (isNaN(parseFloat(newAmount))) {
+                return interaction.reply({ content: '❌ Please enter a valid number.', flags: 64 });
+            }
+            await interaction.reply({ content: '✅ Amount updated to: **' + newAmount + '**', flags: 64 });
         }
     }
 });

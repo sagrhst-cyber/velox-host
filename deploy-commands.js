@@ -28,6 +28,10 @@ const commands = [
     new SlashCommandBuilder()
         .setName('verify')
         .setDescription('Send the verification panel')
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+    new SlashCommandBuilder()
+        .setName('exchangesetup')
+        .setDescription('Send the exchange trade panel')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 ].map(command => command.toJSON());
 
