@@ -1309,6 +1309,25 @@ function buildExchangeClosingPanel() {
     return container;
 }
 
+function buildTicketCreatedPanel(channelId) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ff00);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Ticket Created**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Your ticket has been created: <#' + channelId + '>')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    return container;
+}
+
 function buildTradeCompletedPanel(data) {
     const container = new ContainerBuilder();
     container.setAccentColor(0x2ecc71);
@@ -1622,9 +1641,7 @@ client.on('interactionCreate', async interaction => {
 
             const ticketChannel = await createTicketChannel(guild, user, buildTicketContainer(subject, user), { type: 'Support', category: getSubjectLabel(subject) });
 
-            await interaction.editReply({
-                content: '✅ Ticket created: <#' + ticketChannel.id + '>'
-            });
+            await interaction.editReply(v2Message(buildTicketCreatedPanel(ticketChannel.id)));
         }
 
         if (interaction.customId === 'exchange_sending_method') {
@@ -1762,7 +1779,7 @@ client.on('interactionCreate', async interaction => {
             const ticketChannel = await createTicketChannel(interaction.guild, interaction.user, buildBotTicketContainer(data.botType, data.duration, 'PayPal', null, interaction.user), { type: data.botType, duration: data.duration, payment: 'PayPal' });
 
             await interaction.followUp({
-                content: '✅ Ticket created: <#' + ticketChannel.id + '>',
+                ...v2Message(buildTicketCreatedPanel(ticketChannel.id)),
                 flags: 64
             });
         }
@@ -1778,7 +1795,7 @@ client.on('interactionCreate', async interaction => {
             const ticketChannel = await createTicketChannel(interaction.guild, interaction.user, buildBotTicketContainer(data.botType, data.duration, 'Paysafe', paysafeType, interaction.user), { type: data.botType, duration: data.duration, payment: 'Paysafe', paysafeType });
 
             await interaction.followUp({
-                content: '✅ Ticket created: <#' + ticketChannel.id + '>',
+                ...v2Message(buildTicketCreatedPanel(ticketChannel.id)),
                 flags: 64
             });
         }
@@ -1800,7 +1817,7 @@ client.on('interactionCreate', async interaction => {
             const ticketChannel = await createTicketChannel(interaction.guild, interaction.user, buildBotTicketContainer(data.botType, data.duration, 'Crypto', crypto, interaction.user), { type: data.botType, duration: data.duration, payment: 'Crypto', crypto });
 
             await interaction.followUp({
-                content: '✅ Ticket created: <#' + ticketChannel.id + '>',
+                ...v2Message(buildTicketCreatedPanel(ticketChannel.id)),
                 flags: 64
             });
         }
@@ -1929,7 +1946,7 @@ client.on('interactionCreate', async interaction => {
 
             exchangeTickets.set(ticketChannel.id, { ...data, user: interaction.user });
             exchangeData.delete(interaction.user.id);
-            await interaction.editReply({ content: '✅ Exchange ticket created: <#' + ticketChannel.id + '>' });
+            await interaction.editReply(v2Message(buildTicketCreatedPanel(ticketChannel.id)));
         }
 
         if (interaction.customId === 'exchange_cancel') {
