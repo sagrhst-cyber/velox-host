@@ -2075,18 +2075,23 @@ client.on('interactionCreate', async interaction => {
                 return interaction.reply({ content: '❌ Only staff can close tickets.', ephemeral: true });
             }
 
-            const ticketData = exchangeTickets.get(interaction.channel.id);
-            const historyChannel = interaction.guild.channels.cache.get(EXCHANGE_HISTORY_CHANNEL_ID);
+            try {
+                const ticketData = exchangeTickets.get(interaction.channel.id);
+                const historyChannel = interaction.guild.channels.cache.get(EXCHANGE_HISTORY_CHANNEL_ID);
 
-            if (ticketData && historyChannel) {
-                await historyChannel.send(v2Message(buildTradeCompletedPanel(ticketData)));
+                if (ticketData && historyChannel) {
+                    await historyChannel.send(v2Message(buildTradeCompletedPanel(ticketData)));
+                }
+
+                await interaction.reply(v2Message(buildExchangeClosingPanel()));
+                exchangeTickets.delete(interaction.channel.id);
+                setTimeout(async () => {
+                    await interaction.channel.delete().catch(() => {});
+                }, 3000);
+            } catch (err) {
+                console.error('Close ticket error:', err);
+                await interaction.reply({ content: '❌ Error closing ticket.', flags: 64 }).catch(() => {});
             }
-
-            await interaction.reply(v2Message(buildExchangeClosingPanel()));
-            exchangeTickets.delete(interaction.channel.id);
-            setTimeout(async () => {
-                await interaction.channel.delete().catch(() => {});
-            }, 3000);
         }
 
         if (interaction.customId === 'exchange_ticket_notify') {
