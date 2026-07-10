@@ -913,89 +913,74 @@ function buildSupportPanel() {
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 🔧 General Support')
-    );
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> Need assistance? Contact our team for help with exchanges, questions, technical issues or any other concerns.')
-    );
-
-    container.addSeparatorComponents(new SeparatorBuilder());
-
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 🔄 Start Trading')
-    );
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> Exchange safely, build your reputation and complete secure trades with our community.')
+    container.addSectionComponents(
+        new SectionBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent('## 🔧 General Support\n> Need assistance? Contact our team for help with exchanges, questions, technical issues or any other concerns.')
+            )
+            .setButtonAccessory(
+                new ButtonBuilder().setCustomId('support_general').setLabel('General Support').setEmoji('🔧').setStyle(ButtonStyle.Danger)
+            )
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 👥 Join The Crew')
-    );
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> Help manage the community, support members, maintain order and contribute to the future of Velox.')
-    );
-
-    container.addSeparatorComponents(new SeparatorBuilder());
-
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## ⚠️ Scammer Report')
-    );
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> Been Scammed? Report It To Our Official Security Partners And Help Keep The Community Safe.')
+    container.addSectionComponents(
+        new SectionBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent('## 🔄 Start Trading\n> Exchange safely, build your reputation and complete secure trades with our community.')
+            )
+            .setButtonAccessory(
+                new ButtonBuilder().setCustomId('support_trading').setLabel('Start Trading').setEmoji('🔄').setStyle(ButtonStyle.Primary)
+            )
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 📢 Advertisement')
-    );
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> Advertise your server or community inside Velox and reach a wider audience.')
-    );
-
-    container.addSeparatorComponents(new SeparatorBuilder());
-
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## 🤝 Partnerships')
-    );
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('> Partner with Velox for mutual promotion and grow your community alongside ours.')
+    container.addSectionComponents(
+        new SectionBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent('## 👥 Join The Crew\n> Help manage the community, support members, maintain order and contribute to the future of Velox.')
+            )
+            .setButtonAccessory(
+                new ButtonBuilder().setCustomId('support_crew').setLabel('Join The Crew').setEmoji('👥').setStyle(ButtonStyle.Primary)
+            )
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
 
-    container.addActionRowComponents(
-        new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId('support_general').setLabel('General Support').setEmoji('🔧').setStyle(ButtonStyle.Danger)
-        )
+    container.addSectionComponents(
+        new SectionBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent('## ⚠️ Scammer Report\n> Been Scammed? Report It To Our Official Security Partners And Help Keep The Community Safe.')
+            )
+            .setButtonAccessory(
+                new ButtonBuilder().setCustomId('support_scammer').setLabel('Scammer Report').setEmoji('⚠️').setStyle(ButtonStyle.Danger)
+            )
     );
-    container.addActionRowComponents(
-        new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId('support_trading').setLabel('Start Trading').setEmoji('🔄').setStyle(ButtonStyle.Primary)
-        )
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addSectionComponents(
+        new SectionBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent('## 📢 Advertisement\n> Advertise your server or community inside Velox and reach a wider audience.')
+            )
+            .setButtonAccessory(
+                new ButtonBuilder().setCustomId('support_ads').setLabel('Advertisement').setEmoji('📢').setStyle(ButtonStyle.Secondary)
+            )
     );
-    container.addActionRowComponents(
-        new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId('support_crew').setLabel('Join The Crew').setEmoji('👥').setStyle(ButtonStyle.Primary)
-        )
-    );
-    container.addActionRowComponents(
-        new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId('support_scammer').setLabel('Scammer Report').setEmoji('⚠️').setStyle(ButtonStyle.Danger)
-        )
-    );
-    container.addActionRowComponents(
-        new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId('support_ads').setLabel('Advertisement').setEmoji('📢').setStyle(ButtonStyle.Secondary)
-        )
-    );
-    container.addActionRowComponents(
-        new ActionRowBuilder().addComponents(
-            new ButtonBuilder().setCustomId('support_partners').setLabel('Partnerships').setEmoji('🤝').setStyle(ButtonStyle.Primary)
-        )
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addSectionComponents(
+        new SectionBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder().setContent('## 🤝 Partnerships\n> Partner with Velox for mutual promotion and grow your community alongside ours.')
+            )
+            .setButtonAccessory(
+                new ButtonBuilder().setCustomId('support_partners').setLabel('Partnerships').setEmoji('🤝').setStyle(ButtonStyle.Primary)
+            )
     );
 
     return container;
