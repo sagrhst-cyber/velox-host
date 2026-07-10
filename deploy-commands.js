@@ -32,6 +32,10 @@ const commands = [
     new SlashCommandBuilder()
         .setName('exchangesetup')
         .setDescription('Send the exchange trade panel')
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+    new SlashCommandBuilder()
+        .setName('plansbot')
+        .setDescription('Send the bot hosting plans panel')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 ].map(command => command.toJSON());
 

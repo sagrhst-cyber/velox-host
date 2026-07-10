@@ -793,6 +793,106 @@ function getCurrencySymbol(currency) {
     return map[currency] || currency;
 }
 
+function buildPlansBotPanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Bot Hosting Plans**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> **Weekly:** €5/week — 24/7 Hosting, 512MB RAM, 1 CPU Core, Auto Restart, Basic Support\n' +
+            '> <a:arrow:1523832007941947543> **Monthly:** €10/month — 24/7 Hosting, 1GB RAM, 2 CPU Cores, Auto Restart, Priority Support, Custom Domain\n' +
+            '> <a:arrow:1523832007941947543> **Yearly:** €50/year — 24/7 Hosting, 2GB RAM, 4 CPU Cores, Auto Restart, VIP Support, Custom Domain, Free Setup')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('plans_view')
+                .setLabel('View Plans')
+                .setEmoji({ name: 'plans', id: '1518267578789920994', animated: false })
+                .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
+                .setCustomId('plans_visit')
+                .setLabel('Visit Site')
+                .setEmoji({ name: 'link', id: '785730578526896178', animated: false })
+                .setStyle(ButtonStyle.Link)
+                .setURL('https://velox-host-site-production.up.railway.app')
+        )
+    );
+
+    return container;
+}
+
+function buildPlansDetailPanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Bot Hosting Plans**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Weekly — €5/week**__')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> ✅ 24/7 Bot Hosting\n> ✅ 512MB RAM\n> ✅ 1 CPU Core\n> ✅ Auto Restart\n> ✅ Basic Support')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Monthly — €10/month**__ **(MOST POPULAR)**')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> ✅ 24/7 Bot Hosting\n> ✅ 1GB RAM\n> ✅ 2 CPU Cores\n> ✅ Auto Restart\n> ✅ Priority Support\n> ✅ Custom Domain')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Yearly — €50/year**__')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> ✅ 24/7 Bot Hosting\n> ✅ 2GB RAM\n> ✅ 4 CPU Cores\n> ✅ Auto Restart\n> ✅ VIP Support\n> ✅ Custom Domain\n> ✅ Free Setup')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('plans_visit')
+                .setLabel('Order Now')
+                .setEmoji({ name: 'plans', id: '1518267578789920994', animated: false })
+                .setStyle(ButtonStyle.Link)
+                .setURL('https://velox-host-site-production.up.railway.app/order')
+        )
+    );
+
+    return container;
+}
+
 function buildExchangeWelcomePanel() {
     const container = new ContainerBuilder();
     container.setAccentColor(0x00ffff);
@@ -1629,6 +1729,13 @@ client.on('interactionCreate', async interaction => {
             }
             await interaction.reply(v2Message(buildExchangeWelcomePanel()));
         }
+
+        if (interaction.commandName === 'plansbot') {
+            if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+                return interaction.reply({ content: '❌ You need Administrator permission.', ephemeral: true });
+            }
+            await interaction.reply(v2Message(buildPlansBotPanel()));
+        }
     }
 
     if (interaction.isStringSelectMenu()) {
@@ -1701,6 +1808,14 @@ client.on('interactionCreate', async interaction => {
     }
 
     if (interaction.isButton()) {
+        if (interaction.customId === 'plans_view') {
+            await interaction.reply(v2Message(buildPlansDetailPanel()));
+        }
+
+        if (interaction.customId === 'plans_visit') {
+            await interaction.reply({ content: '🌐 Visit our site: https://velox-host-site-production.up.railway.app', flags: 64 });
+        }
+
         // ==================== CUSTOM BOT FLOW ====================
         if (interaction.customId === 'custom_bot') {
             await interaction.deferReply({ flags: 64 });
