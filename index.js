@@ -769,6 +769,13 @@ const CURRENCIES = [
     { label: 'GBP (£)', value: 'GBP' }
 ];
 
+const CRYPTOS = [
+    { label: 'Bitcoin (BTC)', value: 'btc' },
+    { label: 'Ethereum (ETH)', value: 'eth' },
+    { label: 'Litecoin (LTC)', value: 'ltc' },
+    { label: 'Solana (SOL)', value: 'sol' }
+];
+
 const EXCHANGE_FEE_RATE = 0.20;
 const EXCHANGE_MIN_FEE = 0.70;
 
@@ -947,6 +954,41 @@ function buildReceivingMethodPanel() {
     container.addActionRowComponents(
         new ActionRowBuilder().addComponents(selectMenu)
     );
+
+    return container;
+}
+
+function buildCryptoSelectPanel(type) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Select Crypto**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Choose which cryptocurrency you want to ' + (type === 'send' ? '**SEND**' : '**RECEIVE**') + '.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    const selectMenu = new StringSelectMenuBuilder()
+        .setCustomId('exchange_crypto_select_' + type)
+        .setPlaceholder('Select Cryptocurrency')
+        .addOptions(
+            CRYPTOS.map(c => ({
+                label: c.label,
+                value: c.value
+            }))
+        );
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(selectMenu)
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
 
     return container;
 }
@@ -1195,7 +1237,7 @@ function buildExchangeTicketContainer(data, user) {
     );
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '> **Method:** ' + getMethodEmoji(data.sendMethod) + ' ' + data.sendMethod.charAt(0).toUpperCase() + data.sendMethod.slice(1) + '\n' +
+            '> **Method:** ' + getMethodEmoji(data.sendMethod) + ' ' + data.sendMethod.charAt(0).toUpperCase() + data.sendMethod.slice(1) + (data.sendCrypto ? ' (' + data.sendCrypto.toUpperCase() + ')' : '') + '\n' +
             '> **Sending Amount:** ' + data.sendAmount.toFixed(2) + sendSymbol
         )
     );
@@ -1207,7 +1249,7 @@ function buildExchangeTicketContainer(data, user) {
     );
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '> **Method:** ' + getMethodEmoji(data.receiveMethod) + ' ' + data.receiveMethod.charAt(0).toUpperCase() + data.receiveMethod.slice(1) + '\n' +
+            '> **Method:** ' + getMethodEmoji(data.receiveMethod) + ' ' + data.receiveMethod.charAt(0).toUpperCase() + data.receiveMethod.slice(1) + (data.receiveCrypto ? ' (' + data.receiveCrypto.toUpperCase() + ')' : '') + '\n' +
             '> **Receiving Amount:** ' + receiveAmount + receiveSymbol
         )
     );
@@ -1282,7 +1324,7 @@ function buildTradeCompletedPanel(data) {
     );
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '> **Method:** ' + getMethodEmoji(data.sendMethod) + ' ' + data.sendMethod.charAt(0).toUpperCase() + data.sendMethod.slice(1) + '\n' +
+            '> **Method:** ' + getMethodEmoji(data.sendMethod) + ' ' + data.sendMethod.charAt(0).toUpperCase() + data.sendMethod.slice(1) + (data.sendCrypto ? ' (' + data.sendCrypto.toUpperCase() + ')' : '') + '\n' +
             '> **Sent Amount:** ' + data.sendAmount.toFixed(2) + sendSymbol
         )
     );
@@ -1294,7 +1336,7 @@ function buildTradeCompletedPanel(data) {
     );
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '> **Method:** ' + getMethodEmoji(data.receiveMethod) + ' ' + data.receiveMethod.charAt(0).toUpperCase() + data.receiveMethod.slice(1) + '\n' +
+            '> **Method:** ' + getMethodEmoji(data.receiveMethod) + ' ' + data.receiveMethod.charAt(0).toUpperCase() + data.receiveMethod.slice(1) + (data.receiveCrypto ? ' (' + data.receiveCrypto.toUpperCase() + ')' : '') + '\n' +
             '> **Received Amount:** ' + receiveAmount + receiveSymbol
         )
     );
@@ -1586,6 +1628,8 @@ client.on('interactionCreate', async interaction => {
             await interaction.deferUpdate();
             if (method === 'paysafe') {
                 await interaction.editReply(v2Message(buildPaysafeTypePanel()));
+            } else if (method === 'crypto') {
+                await interaction.editReply(v2Message(buildCryptoSelectPanel('send')));
             } else {
                 await interaction.editReply(v2Message(buildReceivingMethodPanel()));
             }
@@ -1604,6 +1648,28 @@ client.on('interactionCreate', async interaction => {
             const method = interaction.values[0];
             const data = exchangeData.get(interaction.user.id) || {};
             data.receiveMethod = method;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            if (method === 'crypto') {
+                await interaction.editReply(v2Message(buildCryptoSelectPanel('receive')));
+            } else {
+                await interaction.editReply(v2Message(buildAmountPanel()));
+            }
+        }
+
+        if (interaction.customId === 'exchange_crypto_select_send') {
+            const crypto = interaction.values[0];
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.sendCrypto = crypto;
+            exchangeData.set(interaction.user.id, data);
+            await interaction.deferUpdate();
+            await interaction.editReply(v2Message(buildReceivingMethodPanel()));
+        }
+
+        if (interaction.customId === 'exchange_crypto_select_receive') {
+            const crypto = interaction.values[0];
+            const data = exchangeData.get(interaction.user.id) || {};
+            data.receiveCrypto = crypto;
             exchangeData.set(interaction.user.id, data);
             await interaction.deferUpdate();
             await interaction.editReply(v2Message(buildAmountPanel()));
