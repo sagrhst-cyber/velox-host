@@ -790,7 +790,7 @@ function getCurrencySymbol(currency) {
 
 function buildExchangeWelcomePanel() {
     const container = new ContainerBuilder();
-    container.setAccentColor(0x9b59b6);
+    container.setAccentColor(0x00ffff);
 
     container.addMediaGalleryComponents(
         new MediaGalleryBuilder().addItems(
@@ -851,7 +851,7 @@ function buildExchangeWelcomePanel() {
 
 function buildSendingMethodPanel() {
     const container = new ContainerBuilder();
-    container.setAccentColor(0x9b59b6);
+    container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('# 📤 __**Sending Method**__')
@@ -884,7 +884,7 @@ function buildSendingMethodPanel() {
 
 function buildPaysafeTypePanel() {
     const container = new ContainerBuilder();
-    container.setAccentColor(0x9b59b6);
+    container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('# 🏦 __**Paysafe Type**__')
@@ -917,7 +917,7 @@ function buildPaysafeTypePanel() {
 
 function buildReceivingMethodPanel() {
     const container = new ContainerBuilder();
-    container.setAccentColor(0x9b59b6);
+    container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('# 📥 __**Receiving Method**__')
@@ -950,7 +950,7 @@ function buildReceivingMethodPanel() {
 
 function buildAmountPanel() {
     const container = new ContainerBuilder();
-    container.setAccentColor(0x9b59b6);
+    container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('# 💰 __**Enter Amount**__')
@@ -982,7 +982,7 @@ function buildAmountPanel() {
 
 function buildKeypadPanel(amount) {
     const container = new ContainerBuilder();
-    container.setAccentColor(0x9b59b6);
+    container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('# 💰 __**Enter Amount**__')
@@ -1036,7 +1036,7 @@ function buildKeypadPanel(amount) {
 
 function buildCurrencyPanel() {
     const container = new ContainerBuilder();
-    container.setAccentColor(0x9b59b6);
+    container.setAccentColor(0x00ffff);
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('# 💱 __**Select Currency**__')
@@ -1063,7 +1063,7 @@ function buildCurrencyPanel() {
 
 function buildTradeSummaryPanel(data) {
     const container = new ContainerBuilder();
-    container.setAccentColor(0x9b59b6);
+    container.setAccentColor(0x00ffff);
 
     const fee = calcFee(data.sendAmount);
     const receiveAmount = (data.sendAmount - fee).toFixed(2);
@@ -1138,7 +1138,7 @@ function buildTradeSummaryPanel(data) {
 
 function buildExchangeTicketContainer(data, user) {
     const container = new ContainerBuilder();
-    container.setAccentColor(0x9b59b6);
+    container.setAccentColor(0x00ffff);
 
     const fee = calcFee(data.sendAmount);
     const receiveAmount = (data.sendAmount - fee).toFixed(2);
