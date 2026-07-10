@@ -1330,7 +1330,7 @@ function buildTicketCreatedPanel(channelId) {
 
 function buildTradeCompletedPanel(data) {
     const container = new ContainerBuilder();
-    container.setAccentColor(0x2ecc71);
+    container.setAccentColor(0x00ffff);
 
     const fee = calcFee(data.sendAmount);
     const receiveAmount = (data.sendAmount - fee).toFixed(2);
@@ -1343,7 +1343,7 @@ function buildTradeCompletedPanel(data) {
         new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Trade Completed**__')
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder());
+    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Customer Sent**__')
@@ -1355,7 +1355,7 @@ function buildTradeCompletedPanel(data) {
         )
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder());
+    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Customer Received**__')
@@ -1367,7 +1367,7 @@ function buildTradeCompletedPanel(data) {
         )
     );
 
-    container.addSeparatorComponents(new SeparatorBuilder());
+    container.addSeparatorComponents(new SeparatorBuilder().setColor(0x00ffff));
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('<:velox:1523718046546530365> **Ticket ID:** `' + ('VEX-' + Math.random().toString(36).substr(2, 6).toUpperCase()) + '`')
