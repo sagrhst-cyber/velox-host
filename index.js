@@ -23,6 +23,7 @@ const client = new Client({
 const TICKET_BANNER = 'https://cdn.discordapp.com/attachments/1523746122131308625/1523746157052821534/mikro_banner.jfif?ex=6a4d3ab1&is=6a4be931&hm=21e3c40f150525cea23b8e42066b1f4e9e88a3634c48ec22257987156878d57d&';
 const TICKET_LOGO = 'https://cdn.discordapp.com/attachments/1523746122131308625/1523746353790844999/galazio_velox_bot.png?ex=6a4d3ae0&is=6a4be960&hm=e0abf3d920004105d2a1943c62db6a44005892b38db6611d74c6bdf676c08a72&';
 const RATINGS_CHANNEL_ID = '1523834655760187412';
+const EXCHANGE_HISTORY_CHANNEL_ID = '1523725694230724739';
 
 const CATEGORIES = [
     { label: 'General Support', value: 'general', emoji: '<:support_global:1360274659290906866>', description: 'Get help with general questions' },
@@ -1256,6 +1257,58 @@ function buildExchangeClosingPanel() {
     return container;
 }
 
+function buildTradeCompletedPanel(data) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x2ecc71);
+
+    const fee = calcFee(data.sendAmount);
+    const receiveAmount = (data.sendAmount - fee).toFixed(2);
+    const sendSymbol = getCurrencySymbol(data.sendCurrency);
+    const receiveSymbol = getCurrencySymbol(data.receiveCurrency);
+
+    const timeAgo = 'Just now';
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# ✅ __**Trade Completed**__')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 📤 __**Customer Sent**__')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Method:** ' + getMethodEmoji(data.sendMethod) + ' ' + data.sendMethod.charAt(0).toUpperCase() + data.sendMethod.slice(1) + '\n' +
+            '> **Sent Amount:** ' + data.sendAmount.toFixed(2) + sendSymbol
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## 📥 __**Customer Received**__')
+    );
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Method:** ' + getMethodEmoji(data.receiveMethod) + ' ' + data.receiveMethod.charAt(0).toUpperCase() + data.receiveMethod.slice(1) + '\n' +
+            '> **Received Amount:** ' + receiveAmount + receiveSymbol
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('🆔 **Ticket ID:** `' + ('VEX-' + Math.random().toString(36).substr(2, 6).toUpperCase()) + '`')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('🕐 Completed ' + timeAgo)
+    );
+
+    return container;
+}
+
 // ==================== CREATE TICKET CHANNEL ====================
 
 async function createTicketChannel(guild, user, container, info = null) {
@@ -1813,7 +1866,16 @@ client.on('interactionCreate', async interaction => {
             if (!interaction.member.permissions.has(PermissionFlagsBits.ManageChannels) && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
                 return interaction.reply({ content: '❌ Only staff can close tickets.', ephemeral: true });
             }
+
+            const ticketData = exchangeTickets.get(interaction.channel.id);
+            const historyChannel = interaction.guild.channels.cache.get(EXCHANGE_HISTORY_CHANNEL_ID);
+
+            if (ticketData && historyChannel) {
+                await historyChannel.send(v2Message(buildTradeCompletedPanel(ticketData)));
+            }
+
             await interaction.reply(v2Message(buildExchangeClosingPanel()));
+            exchangeTickets.delete(interaction.channel.id);
             setTimeout(async () => {
                 await interaction.channel.delete().catch(() => {});
             }, 3000);
