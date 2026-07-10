@@ -1167,14 +1167,17 @@ function buildTradeSummaryPanel(data) {
             new ButtonBuilder()
                 .setCustomId('exchange_confirm')
                 .setLabel('Confirm & Create Ticket')
+                .setEmoji({ name: 'confirm', id: '1498951217668296746', animated: false })
                 .setStyle(ButtonStyle.Success),
             new ButtonBuilder()
                 .setCustomId('exchange_add_note')
                 .setLabel('Add Note')
+                .setEmoji({ name: 'note', id: '1518985356018716933', animated: false })
                 .setStyle(ButtonStyle.Primary),
             new ButtonBuilder()
                 .setCustomId('exchange_cancel')
                 .setLabel('Cancel Process')
+                .setEmoji({ name: 'cancel', id: '1498951220998574121', animated: false })
                 .setStyle(ButtonStyle.Danger)
         )
     );
