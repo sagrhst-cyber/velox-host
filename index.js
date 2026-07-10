@@ -814,16 +814,12 @@ function buildExchangeWelcomePanel() {
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
-            '## <a:arrow:1523832007941947543> __**Instant & Secure Service**__\n' +
-            '## <a:arrow:1523832007941947543> __**Transparent Middleman System**__'
+            '> <a:arrow:1523832007941947543> **Instant & Secure Service**\n' +
+            '> <a:arrow:1523832007941947543> **Transparent Middleman System**'
         )
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
-
-    container.addTextDisplayComponents(
-        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Terms & Fees**__')
-    );
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
