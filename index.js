@@ -1404,7 +1404,7 @@ let statusMessage = null;
 let autoRoleEnabled = true;
 const captchas = new Map();
 
-client.once('ready', () => {
+client.once('clientReady', () => {
     console.log(`✅ Logged in as ${client.user.tag}`);
     console.log(`📡 Serving ${client.guilds.cache.size} guilds`);
     client.user.setPresence({
