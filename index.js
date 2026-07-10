@@ -1275,19 +1275,22 @@ function buildExchangeTicketContainer(data, user) {
             new ButtonBuilder()
                 .setCustomId('exchange_ticket_close')
                 .setLabel('Close Ticket')
-                .setEmoji({ name: 'close', id: '1514086733757681715' })
+                .setEmoji({ name: 'close', id: '1500514865071001701' })
                 .setStyle(ButtonStyle.Danger),
             new ButtonBuilder()
                 .setCustomId('exchange_ticket_notify')
                 .setLabel('Notify Again')
+                .setEmoji({ name: 'notify', id: '1494308781218070538' })
                 .setStyle(ButtonStyle.Secondary),
             new ButtonBuilder()
                 .setCustomId('exchange_ticket_change_amount')
                 .setLabel('Change Amount')
+                .setEmoji({ name: 'amount', id: '1238400946820743218' })
                 .setStyle(ButtonStyle.Primary),
             new ButtonBuilder()
                 .setCustomId('exchange_ticket_change_currency')
                 .setLabel('Change Currency')
+                .setEmoji({ name: 'currency', id: '1514086733757681715' })
                 .setStyle(ButtonStyle.Primary)
         )
     );
