@@ -187,16 +187,60 @@ function buildCrewTicketContainer(data, user) {
     container.addActionRowComponents(
         new ActionRowBuilder().addComponents(
             new ButtonBuilder()
-                .setCustomId('ticket_claim')
-                .setLabel('Claim Ticket')
-                .setEmoji({ name: 'Star_dragon', id: '1494003109607768237' })
-                .setStyle(ButtonStyle.Primary),
+                .setCustomId('crew_accept_' + user.id)
+                .setLabel('Accept')
+                .setEmoji({ name: 'join', id: '1525503478745792673', animated: true })
+                .setStyle(ButtonStyle.Success),
+            new ButtonBuilder()
+                .setCustomId('crew_reject_' + user.id)
+                .setLabel('Reject')
+                .setEmoji({ name: 'scam', id: '1525503497250803872', animated: true })
+                .setStyle(ButtonStyle.Danger),
             new ButtonBuilder()
                 .setCustomId('ticket_close')
                 .setLabel('Close Ticket')
                 .setEmoji({ name: 'close', id: '1514086733757681715' })
-                .setStyle(ButtonStyle.Danger)
+                .setStyle(ButtonStyle.Secondary)
         )
+    );
+
+    return container;
+}
+
+function buildCrewWelcomeDM() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ff00);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> | Welcome to Velox!')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Congratulations! Your application has been **accepted** and you are now part of the Velox Crew!')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**What Now?**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> ✅ You now have access to the crew channels\n> ✅ Help support members and manage the community\n> ✅ Follow server rules and stay active\n> ✅ Contact staff if you need anything')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <:velox:1523718046546530365> **Welcome aboard!** We\'re happy to have you on the team.')
     );
 
     return container;
@@ -2108,7 +2152,7 @@ client.on('interactionCreate', async interaction => {
         }
 
         if (interaction.customId === 'support_crew') {
-            await interaction.reply(v2Message(buildCrewWelcomePanel()));
+            await interaction.reply({ ...v2Message(buildCrewWelcomePanel()), flags: 32832 });
         }
 
         if (interaction.customId === 'crew_start') {
@@ -2544,7 +2588,7 @@ client.on('interactionCreate', async interaction => {
                 availability: interaction.fields.getTextInputValue('crew_availability')
             };
             crewData.set(interaction.user.id, data);
-            await interaction.reply(v2Message(buildCrewSummaryPanel(data)));
+            await interaction.reply({ ...v2Message(buildCrewSummaryPanel(data)), flags: 32832 });
         }
 
         if (interaction.customId === 'verify_modal') {
