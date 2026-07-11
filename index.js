@@ -35,6 +35,7 @@ const userSelections = new Map();
 const ticketInfo = new Map();
 const pendingRatings = new Map();
 const exchangeData = new Map();
+const crewData = new Map();
 const exchangeTickets = new Map();
 
 function getSubjectLabel(subject) {
@@ -125,6 +126,60 @@ function buildTicketContainer(subject, user) {
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('<:velox:1523718046546530365> Describe your issue and a Velox Bots staff member will assist you shortly.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('ticket_claim')
+                .setLabel('Claim Ticket')
+                .setEmoji({ name: 'Star_dragon', id: '1494003109607768237' })
+                .setStyle(ButtonStyle.Primary),
+            new ButtonBuilder()
+                .setCustomId('ticket_close')
+                .setLabel('Close Ticket')
+                .setEmoji({ name: 'close', id: '1514086733757681715' })
+                .setStyle(ButtonStyle.Danger)
+        )
+    );
+
+    return container;
+}
+
+function buildCrewTicketContainer(data, user) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('### <a:join:1525503478745792673> Join The Crew Application')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('<a:arrow:1523832007941947543> Opened by <@' + user.id + '>')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Applicant Info**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Name:** ' + data.name + '\n' +
+            '> **Age:** ' + data.age + '\n' +
+            '> **Experience:** ' + data.experience + '\n' +
+            '> **Why join:** ' + data.why + '\n' +
+            '> **Availability:** ' + data.availability
+        )
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -988,6 +1043,97 @@ function buildSupportPanel() {
     container.addMediaGalleryComponents(
         new MediaGalleryBuilder().addItems(
             new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    return container;
+}
+
+function buildCrewWelcomePanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> | Join The Crew')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Help manage the community, support members, maintain order and contribute to the future of Velox.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> **Requirements:**\n> ✅ Be active and respectful\n> ✅ Follow server rules\n> ✅ Help members with their issues\n> ✅ Be available for occasional events')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('crew_start')
+                .setLabel('Start Application')
+                .setEmoji({ name: 'join', id: '1525503478745792673', animated: true })
+                .setStyle(ButtonStyle.Primary)
+        )
+    );
+
+    return container;
+}
+
+function buildCrewSummaryPanel(data) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> | Application Summary')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Your Info**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Name:** ' + data.name + '\n' +
+            '> **Age:** ' + data.age + '\n' +
+            '> **Experience:** ' + data.experience + '\n' +
+            '> **Why join:** ' + data.why + '\n' +
+            '> **Availability:** ' + data.availability
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('<a:arrow:1523832007941947543> By clicking confirm, you are agreeing with all the [Terms Of Service](https://discord.com/channels/1523717705130315877/1523723223131488412) of our server.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('crew_confirm')
+                .setLabel('Confirm & Submit')
+                .setEmoji({ name: 'join', id: '1525503478745792673', animated: true })
+                .setStyle(ButtonStyle.Success),
+            new ButtonBuilder()
+                .setCustomId('crew_cancel')
+                .setLabel('Cancel')
+                .setEmoji({ name: 'cancel', id: '1498951220998574121' })
+                .setStyle(ButtonStyle.Danger)
         )
     );
 
@@ -1961,9 +2107,78 @@ client.on('interactionCreate', async interaction => {
             await interaction.editReply(v2Message(buildSendingMethodPanel()));
         }
 
+        if (interaction.customId === 'support_crew') {
+            await interaction.reply(v2Message(buildCrewWelcomePanel()));
+        }
+
+        if (interaction.customId === 'crew_start') {
+            const modal = new ModalBuilder()
+                .setCustomId('crew_modal')
+                .setTitle('Join The Crew Application');
+            const nameInput = new TextInputBuilder()
+                .setCustomId('crew_name')
+                .setLabel('Your Name')
+                .setStyle(TextInputStyle.Short)
+                .setPlaceholder('Enter your name...')
+                .setRequired(true);
+            const ageInput = new TextInputBuilder()
+                .setCustomId('crew_age')
+                .setLabel('Your Age')
+                .setStyle(TextInputStyle.Short)
+                .setPlaceholder('Enter your age...')
+                .setRequired(true);
+            const expInput = new TextInputBuilder()
+                .setCustomId('crew_experience')
+                .setLabel('Experience')
+                .setStyle(TextInputStyle.Paragraph)
+                .setPlaceholder('Describe your experience...')
+                .setRequired(true);
+            const whyInput = new TextInputBuilder()
+                .setCustomId('crew_why')
+                .setLabel('Why do you want to join?')
+                .setStyle(TextInputStyle.Paragraph)
+                .setPlaceholder('Tell us why you want to join...')
+                .setRequired(true);
+            const availInput = new TextInputBuilder()
+                .setCustomId('crew_availability')
+                .setLabel('Availability (hours per day)')
+                .setStyle(TextInputStyle.Short)
+                .setPlaceholder('e.g. 4-6 hours daily')
+                .setRequired(true);
+            modal.addComponents(
+                new ActionRowBuilder().addComponents(nameInput),
+                new ActionRowBuilder().addComponents(ageInput),
+                new ActionRowBuilder().addComponents(expInput),
+                new ActionRowBuilder().addComponents(whyInput),
+                new ActionRowBuilder().addComponents(availInput)
+            );
+            await interaction.showModal(modal);
+        }
+
+        if (interaction.customId === 'crew_confirm') {
+            const data = crewData.get(interaction.user.id);
+            if (!data) return interaction.reply({ content: '❌ No application data found.', flags: 64 });
+
+            await interaction.deferReply({ flags: 64 });
+
+            const ticketChannel = await createTicketChannel(
+                interaction.guild,
+                interaction.user,
+                buildCrewTicketContainer(data, interaction.user),
+                { type: 'Crew Application', name: data.name }
+            );
+
+            crewData.delete(interaction.user.id);
+            await interaction.editReply({ content: '✅ Application submitted! Ticket: <#' + ticketChannel.id + '>' });
+        }
+
+        if (interaction.customId === 'crew_cancel') {
+            crewData.delete(interaction.user.id);
+            await interaction.reply({ content: '❌ Application cancelled.', flags: 64 });
+        }
+
         const supportCategories = {
             support_general: 'General Support',
-            support_crew: 'Join The Crew',
             support_scammer: 'Scammer Report',
             support_ads: 'Advertisement',
             support_partners: 'Partnerships'
@@ -2320,6 +2535,18 @@ client.on('interactionCreate', async interaction => {
     }
 
     if (interaction.isModalSubmit()) {
+        if (interaction.customId === 'crew_modal') {
+            const data = {
+                name: interaction.fields.getTextInputValue('crew_name'),
+                age: interaction.fields.getTextInputValue('crew_age'),
+                experience: interaction.fields.getTextInputValue('crew_experience'),
+                why: interaction.fields.getTextInputValue('crew_why'),
+                availability: interaction.fields.getTextInputValue('crew_availability')
+            };
+            crewData.set(interaction.user.id, data);
+            await interaction.reply(v2Message(buildCrewSummaryPanel(data)));
+        }
+
         if (interaction.customId === 'verify_modal') {
             const answer = interaction.fields.getTextInputValue('captcha_answer').trim();
             const correct = captchas.get(interaction.user.id);
