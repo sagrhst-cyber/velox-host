@@ -3067,13 +3067,17 @@ client.on('interactionCreate', async interaction => {
 
         // ==================== CLAIM ====================
         if (interaction.customId === 'ticket_claim') {
-            if (!interaction.member.roles.cache.has('1523718081866633286')) {
-                return interaction.reply({ content: '❌ You do not have permission to claim this ticket.', ephemeral: true });
+            try {
+                if (!interaction.member.roles.cache.has('1523718081866633286')) {
+                    return interaction.reply({ content: '❌ You do not have permission to claim this ticket.', flags: 64 });
+                }
+                await interaction.reply({
+                    content: '✅ <@' + interaction.member.user.id + '> claimed this ticket!',
+                    flags: 64
+                });
+            } catch (err) {
+                console.error('Claim error:', err);
             }
-            await interaction.reply({
-                content: '✅ <@' + interaction.member.user.id + '> claimed this ticket!',
-                flags: 64
-            });
         }
     }
 
