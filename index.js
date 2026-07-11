@@ -36,6 +36,9 @@ const ticketInfo = new Map();
 const pendingRatings = new Map();
 const exchangeData = new Map();
 const crewData = new Map();
+const scammerData = new Map();
+const adsData = new Map();
+const partnersData = new Map();
 const exchangeTickets = new Map();
 
 function getSubjectLabel(subject) {
@@ -1184,6 +1187,384 @@ function buildCrewSummaryPanel(data) {
     return container;
 }
 
+// ==================== SCAMMER REPORT ====================
+function buildScammerWelcomePanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0xff0000);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> | Scammer Report')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Been Scammed? Report It To Our Official Security Partners And Help Keep The Community Safe.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Before You Report**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> ✅ Make sure you have **proof** (screenshots, messages, transactions)\n> ✅ Include the **scammer\'s name** and Discord tag\n> ✅ Describe **what happened** in detail\n> ✅ Reports without proof may be ignored')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('scammer_start')
+                .setLabel('File Report')
+                .setEmoji({ name: 'scam', id: '1525503497250803872', animated: true })
+                .setStyle(ButtonStyle.Danger)
+        )
+    );
+
+    return container;
+}
+
+function buildScammerSummaryPanel(data) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0xff0000);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> | Scammer Report Summary')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Report Details**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Scammer Name:** ' + data.scammerName + '\n' +
+            '> **Amount Lost:** ' + data.amount + '\n' +
+            '> **Proof:** ' + data.proof + '\n' +
+            '> **Description:** ' + data.description
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('scammer_confirm').setLabel('Submit Report').setEmoji({ name: 'scam', id: '1525503497250803872', animated: true }).setStyle(ButtonStyle.Danger),
+            new ButtonBuilder().setCustomId('scammer_cancel').setLabel('Cancel').setEmoji({ name: 'cancel', id: '1498951220998574121' }).setStyle(ButtonStyle.Secondary)
+        )
+    );
+
+    return container;
+}
+
+function buildScammerTicketContainer(data, user) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0xff0000);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('### <a:scam:1525503497250803872> Scammer Report')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('<a:arrow:1523832007941947543> Opened by <@' + user.id + '>')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Report Details**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Scammer Name:** ' + data.scammerName + '\n' +
+            '> **Amount Lost:** ' + data.amount + '\n' +
+            '> **Proof:** ' + data.proof + '\n' +
+            '> **Description:** ' + data.description
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('ticket_claim').setLabel('Claim').setEmoji({ name: 'Star_dragon', id: '1494003109607768237' }).setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId('ticket_close').setLabel('Close').setEmoji({ name: 'close', id: '1514086733757681715' }).setStyle(ButtonStyle.Danger)
+        )
+    );
+
+    return container;
+}
+
+// ==================== ADVERTISEMENT ====================
+function buildAdsWelcomePanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> | Advertisement')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Advertise your server or community inside Velox and reach a wider audience.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Ad Pricing**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> 📌 **Standard Ad:** Free — Featured in our ad channel\n> ⭐ **Premium Ad:** €5 — Pinned for 7 days + shoutout\n> 🚀 **VIP Ad:** €15 — Banner feature + announcement + 30 days')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('ads_start')
+                .setLabel('Place Ad')
+                .setEmoji({ name: 'announcement', id: '1525503512329322628', animated: true })
+                .setStyle(ButtonStyle.Primary)
+        )
+    );
+
+    return container;
+}
+
+function buildAdsSummaryPanel(data) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> | Ad Summary')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Ad Details**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Server Name:** ' + data.serverName + '\n' +
+            '> **Member Count:** ' + data.members + '\n' +
+            '> **Ad Type:** ' + data.adType + '\n' +
+            '> **Description:** ' + data.description
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('ads_confirm').setLabel('Submit Ad').setEmoji({ name: 'announcement', id: '1525503512329322628', animated: true }).setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId('ads_cancel').setLabel('Cancel').setEmoji({ name: 'cancel', id: '1498951220998574121' }).setStyle(ButtonStyle.Secondary)
+        )
+    );
+
+    return container;
+}
+
+function buildAdsTicketContainer(data, user) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('### <a:announcement:1525503512329322628> Advertisement Request')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('<a:arrow:1523832007941947543> Opened by <@' + user.id + '>')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Ad Details**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Server Name:** ' + data.serverName + '\n' +
+            '> **Member Count:** ' + data.members + '\n' +
+            '> **Ad Type:** ' + data.adType + '\n' +
+            '> **Description:** ' + data.description
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('ticket_claim').setLabel('Claim').setEmoji({ name: 'Star_dragon', id: '1494003109607768237' }).setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId('ticket_close').setLabel('Close').setEmoji({ name: 'close', id: '1514086733757681715' }).setStyle(ButtonStyle.Danger)
+        )
+    );
+
+    return container;
+}
+
+// ==================== PARTNERSHIPS ====================
+function buildPartnersWelcomePanel() {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> | Partnerships')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Partner with Velox for mutual promotion and grow your community alongside ours.')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Partner Requirements**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> ✅ Active community with 100+ members\n> ✅ Follow server rules and maintain a positive environment\n> ✅ Willing to cross-promote and collaborate\n> ✅ Non-competitive with Velox services')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setCustomId('partners_start')
+                .setLabel('Become a Partner')
+                .setEmoji({ name: 'partner', id: '1525503526690881566', animated: true })
+                .setStyle(ButtonStyle.Primary)
+        )
+    );
+
+    return container;
+}
+
+function buildPartnersSummaryPanel(data) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> | Partnership Summary')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Partnership Details**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Server Name:** ' + data.serverName + '\n' +
+            '> **Member Count:** ' + data.members + '\n' +
+            '> **What You Offer:** ' + data.offer + '\n' +
+            '> **What You Want:** ' + data.want
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('partners_confirm').setLabel('Submit').setEmoji({ name: 'partner', id: '1525503526690881566', animated: true }).setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId('partners_cancel').setLabel('Cancel').setEmoji({ name: 'cancel', id: '1498951220998574121' }).setStyle(ButtonStyle.Secondary)
+        )
+    );
+
+    return container;
+}
+
+function buildPartnersTicketContainer(data, user) {
+    const container = new ContainerBuilder();
+    container.setAccentColor(0x00ffff);
+
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('### <a:partner:1525503526690881566> Partnership Request')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('<a:arrow:1523832007941947543> Opened by <@' + user.id + '>')
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('## <a:arrow:1523832007941947543> __**Partnership Details**__')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+            '> **Server Name:** ' + data.serverName + '\n' +
+            '> **Member Count:** ' + data.members + '\n' +
+            '> **What They Offer:** ' + data.offer + '\n' +
+            '> **What They Want:** ' + data.want
+        )
+    );
+
+    container.addSeparatorComponents(new SeparatorBuilder());
+
+    container.addActionRowComponents(
+        new ActionRowBuilder().addComponents(
+            new ButtonBuilder().setCustomId('ticket_claim').setLabel('Claim').setEmoji({ name: 'Star_dragon', id: '1494003109607768237' }).setStyle(ButtonStyle.Primary),
+            new ButtonBuilder().setCustomId('ticket_close').setLabel('Close').setEmoji({ name: 'close', id: '1514086733757681715' }).setStyle(ButtonStyle.Danger)
+        )
+    );
+
+    return container;
+}
+
 function buildExchangeWelcomePanel() {
     const container = new ContainerBuilder();
     container.setAccentColor(0x00ffff);
@@ -2159,6 +2540,96 @@ client.on('interactionCreate', async interaction => {
             await interaction.reply({ ...v2Message(buildCrewWelcomePanel()), flags: 32832 });
         }
 
+        if (interaction.customId === 'support_scammer') {
+            await interaction.reply({ ...v2Message(buildScammerWelcomePanel()), flags: 32832 });
+        }
+
+        if (interaction.customId === 'support_ads') {
+            await interaction.reply({ ...v2Message(buildAdsWelcomePanel()), flags: 32832 });
+        }
+
+        if (interaction.customId === 'support_partners') {
+            await interaction.reply({ ...v2Message(buildPartnersWelcomePanel()), flags: 32832 });
+        }
+
+        if (interaction.customId === 'scammer_start') {
+            const modal = new ModalBuilder()
+                .setCustomId('scammer_modal')
+                .setTitle('Scammer Report');
+            const scammerName = new TextInputBuilder().setCustomId('scammer_name').setLabel('Scammer Name & Tag').setStyle(TextInputStyle.Short).setPlaceholder('e.g. JohnDoe#1234').setRequired(true);
+            const amount = new TextInputBuilder().setCustomId('scammer_amount').setLabel('Amount Lost').setStyle(TextInputStyle.Short).setPlaceholder('e.g. €50').setRequired(true);
+            const proof = new TextInputBuilder().setCustomId('scammer_proof').setLabel('Proof (screenshots, links)').setStyle(TextInputStyle.Paragraph).setPlaceholder('Paste links or describe your proof...').setRequired(true);
+            const desc = new TextInputBuilder().setCustomId('scammer_desc').setLabel('What happened?').setStyle(TextInputStyle.Paragraph).setPlaceholder('Describe the scam in detail...').setRequired(true);
+            modal.addComponents(new ActionRowBuilder().addComponents(scammerName), new ActionRowBuilder().addComponents(amount), new ActionRowBuilder().addComponents(proof), new ActionRowBuilder().addComponents(desc));
+            await interaction.showModal(modal);
+        }
+
+        if (interaction.customId === 'scammer_confirm') {
+            const data = scammerData.get(interaction.user.id);
+            if (!data) return interaction.reply({ content: '❌ No report data found.', flags: 64 });
+            await interaction.deferReply({ flags: 64 });
+            const ticketChannel = await createTicketChannel(interaction.guild, interaction.user, buildScammerTicketContainer(data, interaction.user), { type: 'Scammer Report', scammer: data.scammerName });
+            scammerData.delete(interaction.user.id);
+            await interaction.editReply(v2Message(buildTicketCreatedPanel(ticketChannel.id)));
+        }
+
+        if (interaction.customId === 'scammer_cancel') {
+            scammerData.delete(interaction.user.id);
+            await interaction.reply({ content: '❌ Report cancelled.', flags: 64 });
+        }
+
+        if (interaction.customId === 'ads_start') {
+            const modal = new ModalBuilder()
+                .setCustomId('ads_modal')
+                .setTitle('Advertisement Request');
+            const serverName = new TextInputBuilder().setCustomId('ads_server').setLabel('Server Name').setStyle(TextInputStyle.Short).setPlaceholder('Your server name...').setRequired(true);
+            const members = new TextInputBuilder().setCustomId('ads_members').setLabel('Member Count').setStyle(TextInputStyle.Short).setPlaceholder('e.g. 5000').setRequired(true);
+            const adType = new TextInputBuilder().setCustomId('ads_type').setLabel('Ad Type (Standard/Premium/VIP)').setStyle(TextInputStyle.Short).setPlaceholder('Which ad type?').setRequired(true);
+            const desc = new TextInputBuilder().setCustomId('ads_desc').setLabel('Ad Description').setStyle(TextInputStyle.Paragraph).setPlaceholder('Describe your ad...').setRequired(true);
+            modal.addComponents(new ActionRowBuilder().addComponents(serverName), new ActionRowBuilder().addComponents(members), new ActionRowBuilder().addComponents(adType), new ActionRowBuilder().addComponents(desc));
+            await interaction.showModal(modal);
+        }
+
+        if (interaction.customId === 'ads_confirm') {
+            const data = adsData.get(interaction.user.id);
+            if (!data) return interaction.reply({ content: '❌ No ad data found.', flags: 64 });
+            await interaction.deferReply({ flags: 64 });
+            const ticketChannel = await createTicketChannel(interaction.guild, interaction.user, buildAdsTicketContainer(data, interaction.user), { type: 'Advertisement', server: data.serverName });
+            adsData.delete(interaction.user.id);
+            await interaction.editReply(v2Message(buildTicketCreatedPanel(ticketChannel.id)));
+        }
+
+        if (interaction.customId === 'ads_cancel') {
+            adsData.delete(interaction.user.id);
+            await interaction.reply({ content: '❌ Ad cancelled.', flags: 64 });
+        }
+
+        if (interaction.customId === 'partners_start') {
+            const modal = new ModalBuilder()
+                .setCustomId('partners_modal')
+                .setTitle('Partnership Request');
+            const serverName = new TextInputBuilder().setCustomId('partners_server').setLabel('Server Name').setStyle(TextInputStyle.Short).setPlaceholder('Your server name...').setRequired(true);
+            const members = new TextInputBuilder().setCustomId('partners_members').setLabel('Member Count').setStyle(TextInputStyle.Short).setPlaceholder('e.g. 5000').setRequired(true);
+            const offer = new TextInputBuilder().setCustomId('partners_offer').setLabel('What do you offer?').setStyle(TextInputStyle.Paragraph).setPlaceholder('Describe what you bring...').setRequired(true);
+            const want = new TextInputBuilder().setCustomId('partners_want').setLabel('What do you want?').setStyle(TextInputStyle.Paragraph).setPlaceholder('What are you looking for...').setRequired(true);
+            modal.addComponents(new ActionRowBuilder().addComponents(serverName), new ActionRowBuilder().addComponents(members), new ActionRowBuilder().addComponents(offer), new ActionRowBuilder().addComponents(want));
+            await interaction.showModal(modal);
+        }
+
+        if (interaction.customId === 'partners_confirm') {
+            const data = partnersData.get(interaction.user.id);
+            if (!data) return interaction.reply({ content: '❌ No partnership data found.', flags: 64 });
+            await interaction.deferReply({ flags: 64 });
+            const ticketChannel = await createTicketChannel(interaction.guild, interaction.user, buildPartnersTicketContainer(data, interaction.user), { type: 'Partnership', server: data.serverName });
+            partnersData.delete(interaction.user.id);
+            await interaction.editReply(v2Message(buildTicketCreatedPanel(ticketChannel.id)));
+        }
+
+        if (interaction.customId === 'partners_cancel') {
+            partnersData.delete(interaction.user.id);
+            await interaction.reply({ content: '❌ Partnership cancelled.', flags: 64 });
+        }
+
         if (interaction.customId === 'crew_start') {
             const modal = new ModalBuilder()
                 .setCustomId('crew_modal')
@@ -2620,6 +3091,39 @@ client.on('interactionCreate', async interaction => {
             };
             crewData.set(interaction.user.id, data);
             await interaction.reply({ ...v2Message(buildCrewSummaryPanel(data)), flags: 32832 });
+        }
+
+        if (interaction.customId === 'scammer_modal') {
+            const data = {
+                scammerName: interaction.fields.getTextInputValue('scammer_name'),
+                amount: interaction.fields.getTextInputValue('scammer_amount'),
+                proof: interaction.fields.getTextInputValue('scammer_proof'),
+                description: interaction.fields.getTextInputValue('scammer_desc')
+            };
+            scammerData.set(interaction.user.id, data);
+            await interaction.reply({ ...v2Message(buildScammerSummaryPanel(data)), flags: 32832 });
+        }
+
+        if (interaction.customId === 'ads_modal') {
+            const data = {
+                serverName: interaction.fields.getTextInputValue('ads_server'),
+                members: interaction.fields.getTextInputValue('ads_members'),
+                adType: interaction.fields.getTextInputValue('ads_type'),
+                description: interaction.fields.getTextInputValue('ads_desc')
+            };
+            adsData.set(interaction.user.id, data);
+            await interaction.reply({ ...v2Message(buildAdsSummaryPanel(data)), flags: 32832 });
+        }
+
+        if (interaction.customId === 'partners_modal') {
+            const data = {
+                serverName: interaction.fields.getTextInputValue('partners_server'),
+                members: interaction.fields.getTextInputValue('partners_members'),
+                offer: interaction.fields.getTextInputValue('partners_offer'),
+                want: interaction.fields.getTextInputValue('partners_want')
+            };
+            partnersData.set(interaction.user.id, data);
+            await interaction.reply({ ...v2Message(buildPartnersSummaryPanel(data)), flags: 32832 });
         }
 
         if (interaction.customId === 'verify_modal') {
