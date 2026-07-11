@@ -1704,12 +1704,6 @@ function buildTicketCreatedPanel(channelId) {
     const container = new ContainerBuilder();
     container.setAccentColor(0x00ff00);
 
-    container.addMediaGalleryComponents(
-        new MediaGalleryBuilder().addItems(
-            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
-        )
-    );
-
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Ticket Created**__')
     );
