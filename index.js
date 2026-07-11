@@ -2225,29 +2225,27 @@ client.on('interactionCreate', async interaction => {
             if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
                 return interaction.reply({ content: '❌ Only staff can accept applications.', flags: 64 });
             }
+            await interaction.deferReply({ flags: 64 });
             const applicantId = interaction.customId.replace('crew_accept_', '');
-            const member = await interaction.guild.members.fetch(applicantId).catch(() => null);
-            if (member) {
+            try {
+                const member = await interaction.guild.members.fetch(applicantId);
                 await member.roles.add('1523724629263519906').catch(() => {});
-                try {
-                    await member.send(v2Message(buildCrewWelcomeDM()));
-                } catch (e) {}
-            }
-            await interaction.reply({ content: '✅ Application **accepted**! <@' + applicantId + '> has been given the crew role.', flags: 64 });
+                try { await member.send(v2Message(buildCrewWelcomeDM())); } catch (e) {}
+            } catch (e) {}
+            await interaction.editReply({ content: '✅ Application **accepted**! <@' + applicantId + '> has been given the crew role.' });
         }
 
         if (interaction.customId.startsWith('crew_reject_')) {
             if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
                 return interaction.reply({ content: '❌ Only staff can reject applications.', flags: 64 });
             }
+            await interaction.deferReply({ flags: 64 });
             const applicantId = interaction.customId.replace('crew_reject_', '');
-            const member = await interaction.guild.members.fetch(applicantId).catch(() => null);
-            if (member) {
-                try {
-                    await member.send({ content: '❌ Your application to join the Velox Crew has been **rejected**. You can apply again later.' });
-                } catch (e) {}
-            }
-            await interaction.reply({ content: '❌ Application **rejected**. <@' + applicantId + '> has been notified.', flags: 64 });
+            try {
+                const member = await interaction.guild.members.fetch(applicantId);
+                try { await member.send({ content: '❌ Your application to join the Velox Crew has been **rejected**. You can apply again later.' }); } catch (e) {}
+            } catch (e) {}
+            await interaction.editReply({ content: '❌ Application **rejected**. <@' + applicantId + '> has been notified.' });
         }
 
         const supportCategories = {
