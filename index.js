@@ -919,7 +919,7 @@ function buildSupportPanel() {
                 new TextDisplayBuilder().setContent('### __**<a:chat:1525503435837935636> 〻 General Support**__\n> Need assistance? Contact our team for help with exchanges, questions, technical issues or any other concerns.')
             )
             .setButtonAccessory(
-                new ButtonBuilder().setCustomId('support_general').setLabel('General Support').setEmoji({ name: 'chat', id: '1525503435837935636', animated: true }).setStyle(ButtonStyle.Danger)
+                new ButtonBuilder().setCustomId('support_general').setEmoji({ name: 'chat', id: '1525503435837935636', animated: true }).setStyle(ButtonStyle.Danger)
             )
     );
 
@@ -931,7 +931,7 @@ function buildSupportPanel() {
                 new TextDisplayBuilder().setContent('### __**<a:exchange:1525503458495430788> 〻 Start Trading**__\n> Exchange safely, build your reputation and complete secure trades with our community.')
             )
             .setButtonAccessory(
-                new ButtonBuilder().setCustomId('support_trading').setLabel('Start Trading').setEmoji({ name: 'exchange', id: '1525503458495430788', animated: true }).setStyle(ButtonStyle.Primary)
+                new ButtonBuilder().setCustomId('support_trading').setEmoji({ name: 'exchange', id: '1525503458495430788', animated: true }).setStyle(ButtonStyle.Primary)
             )
     );
 
@@ -943,7 +943,7 @@ function buildSupportPanel() {
                 new TextDisplayBuilder().setContent('### __**<a:join:1525503478745792673> 〻 Join The Crew**__\n> Help manage the community, support members, maintain order and contribute to the future of Velox.')
             )
             .setButtonAccessory(
-                new ButtonBuilder().setCustomId('support_crew').setLabel('Join The Crew').setEmoji({ name: 'join', id: '1525503478745792673', animated: true }).setStyle(ButtonStyle.Primary)
+                new ButtonBuilder().setCustomId('support_crew').setEmoji({ name: 'join', id: '1525503478745792673', animated: true }).setStyle(ButtonStyle.Primary)
             )
     );
 
@@ -955,7 +955,7 @@ function buildSupportPanel() {
                 new TextDisplayBuilder().setContent('### __**<a:scam:1525503497250803872> 〻 Scammer Report**__\n> Been Scammed? Report It To Our Official Security Partners And Help Keep The Community Safe.')
             )
             .setButtonAccessory(
-                new ButtonBuilder().setCustomId('support_scammer').setLabel('Scammer Report').setEmoji({ name: 'scam', id: '1525503497250803872', animated: true }).setStyle(ButtonStyle.Danger)
+                new ButtonBuilder().setCustomId('support_scammer').setEmoji({ name: 'scam', id: '1525503497250803872', animated: true }).setStyle(ButtonStyle.Danger)
             )
     );
 
@@ -967,7 +967,7 @@ function buildSupportPanel() {
                 new TextDisplayBuilder().setContent('### __**<a:announcement:1525503512329322628> 〻 Advertisement**__\n> Advertise your server or community inside Velox and reach a wider audience.')
             )
             .setButtonAccessory(
-                new ButtonBuilder().setCustomId('support_ads').setLabel('Advertisement').setEmoji({ name: 'announcement', id: '1525503512329322628', animated: true }).setStyle(ButtonStyle.Secondary)
+                new ButtonBuilder().setCustomId('support_ads').setEmoji({ name: 'announcement', id: '1525503512329322628', animated: true }).setStyle(ButtonStyle.Secondary)
             )
     );
 
@@ -979,7 +979,7 @@ function buildSupportPanel() {
                 new TextDisplayBuilder().setContent('### __**<a:partner:1525503526690881566> 〻 Partnerships**__\n> Partner with Velox for mutual promotion and grow your community alongside ours.')
             )
             .setButtonAccessory(
-                new ButtonBuilder().setCustomId('support_partners').setLabel('Partnerships').setEmoji({ name: 'partner', id: '1525503526690881566', animated: true }).setStyle(ButtonStyle.Primary)
+                new ButtonBuilder().setCustomId('support_partners').setEmoji({ name: 'partner', id: '1525503526690881566', animated: true }).setStyle(ButtonStyle.Primary)
             )
     );
 
