@@ -1955,9 +1955,14 @@ client.on('interactionCreate', async interaction => {
         }
 
         // ==================== SUPPORT PANEL ====================
+        if (interaction.customId === 'support_trading') {
+            await interaction.deferReply({ flags: 64 });
+            exchangeData.set(interaction.user.id, {});
+            await interaction.editReply(v2Message(buildSendingMethodPanel()));
+        }
+
         const supportCategories = {
             support_general: 'General Support',
-            support_trading: 'Start Trading',
             support_crew: 'Join The Crew',
             support_scammer: 'Scammer Report',
             support_ads: 'Advertisement',
