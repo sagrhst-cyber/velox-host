@@ -2724,10 +2724,7 @@ client.on('interactionCreate', async interaction => {
         }
 
         const supportCategories = {
-            support_general: 'General Support',
-            support_scammer: 'Scammer Report',
-            support_ads: 'Advertisement',
-            support_partners: 'Partnerships'
+            support_general: 'General Support'
         };
 
         if (supportCategories[interaction.customId]) {
