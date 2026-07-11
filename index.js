@@ -1704,6 +1704,12 @@ function buildTicketCreatedPanel(channelId) {
     const container = new ContainerBuilder();
     container.setAccentColor(0x00ff00);
 
+    container.addMediaGalleryComponents(
+        new MediaGalleryBuilder().addItems(
+            new MediaGalleryItemBuilder().setURL(TICKET_BANNER)
+        )
+    );
+
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('# <:velox:1523718046546530365> __**Ticket Created**__')
     );
@@ -1712,6 +1718,10 @@ function buildTicketCreatedPanel(channelId) {
 
     container.addTextDisplayComponents(
         new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> Your ticket has been created: <#' + channelId + '>')
+    );
+
+    container.addTextDisplayComponents(
+        new TextDisplayBuilder().setContent('> <a:arrow:1523832007941947543> A staff member will assist you shortly.')
     );
 
     container.addSeparatorComponents(new SeparatorBuilder());
@@ -2213,7 +2223,7 @@ client.on('interactionCreate', async interaction => {
             );
 
             crewData.delete(interaction.user.id);
-            await interaction.editReply({ content: '✅ Application submitted! Ticket: <#' + ticketChannel.id + '>' });
+            await interaction.editReply(v2Message(buildTicketCreatedPanel(ticketChannel.id)));
         }
 
         if (interaction.customId === 'crew_cancel') {
@@ -2259,7 +2269,7 @@ client.on('interactionCreate', async interaction => {
             await interaction.deferReply({ flags: 64 });
             const category = supportCategories[interaction.customId];
             const ticketChannel = await createTicketChannel(interaction.guild, interaction.user, buildTicketContainer(category, interaction.user), { type: 'Support', category });
-            await interaction.editReply({ content: '✅ Ticket created: <#' + ticketChannel.id + '>' });
+            await interaction.editReply(v2Message(buildTicketCreatedPanel(ticketChannel.id)));
         }
 
         // ==================== CUSTOM BOT FLOW ====================
