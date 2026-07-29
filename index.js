@@ -3001,7 +3001,7 @@ client.on('interactionCreate', async interaction => {
                     await historyChannel.send(v2Message(buildTradeCompletedPanel(ticketData)));
                 }
 
-                await interaction.reply(v2Message(buildExchangeClosingPanel()));
+                await interaction.reply({ ...v2Message(buildExchangeClosingPanel()), flags: 32832 });
                 exchangeTickets.delete(interaction.channel.id);
                 setTimeout(async () => {
                     await interaction.channel.delete().catch(() => {});
@@ -3042,9 +3042,9 @@ client.on('interactionCreate', async interaction => {
         // ==================== TICKET CLOSE & RATE ====================
         if (interaction.customId === 'ticket_close') {
             if (!interaction.member.permissions.has(PermissionFlagsBits.ManageChannels) && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
-                return interaction.reply({ content: '❌ Only staff can close tickets.', ephemeral: true });
+                return interaction.reply({ content: '❌ Only staff can close tickets.', flags: 64 });
             }
-            await interaction.reply(v2Message(buildRatePanel()));
+            await interaction.reply({ ...v2Message(buildRatePanel()), flags: 32832 });
         }
 
         if (interaction.customId.startsWith('rate_')) {
